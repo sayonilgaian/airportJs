@@ -1,51 +1,106 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/loaders';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/loaders/GLTFLoader.js';
 
-// Scene, Camera, and Renderer
+// Scene, Camera, Renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
-	75,
-	window.innerWidth / window.innerHeight,
-	0.1,
-	1000
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
 );
 const renderer = new THREE.WebGLRenderer();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Add Orbit Controls
+// Orbit Controls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-// Add Light
+// Light
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(10, 10, 10);
 scene.add(light);
 
-// Load GLTF File
+// Load GLTF Model
 const loader = new GLTFLoader();
+let model;
 loader.load(
-	'./models/scene.gltf', // Replace with the actual path to your GLTF file
-	(gltf) => {
-		scene.add(gltf.scene);
-		console.log('Model loaded successfully');
-	},
-	(xhr) => {
-		console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-	},
-	(error) => {
-		console.error('An error occurred while loading the model:', error);
-	}
+    './models/scene.gltf', // Replace with your model path
+    (gltf) => {
+        model = gltf.scene;
+        scene.add(model);
+
+        // Add overlay points after model is loaded
+        addTextOverlays([
+            { position: new THREE.Vector3(0, 1, 0), text: 'Point 1', info: 'Info about Point 1' },
+            { position: new THREE.Vector3(2, 1.5, -1), text: 'Point 2', info: 'Info about Point 2' },
+        ]);
+    },
+    undefined,
+    (error) => console.error(error)
 );
 
-// Position the Camera
-camera.position.z = 5;
+// Camera Position
+camera.position.set(0, 5, 10);
+controls.update();
+
+// Overlay Container
+const overlayContainer = document.createElement('div');
+overlayContainer.style.position = 'absolute';
+overlayContainer.style.top = '0';
+overlayContainer.style.left = '0';
+overlayContainer.style.width = '100%';
+overlayContainer.style.height = '100%';
+overlayContainer.style.pointerEvents = 'none';
+document.body.appendChild(overlayContainer);
+
+// Add Text Overlays
+const overlays = [];
+function addTextOverlays(points) {
+    points.forEach((point) => {
+        const element = document.createElement('div');
+        element.textContent = point.text;
+        element.style.position = 'absolute';
+        element.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        element.style.padding = '4px 8px';
+        element.style.borderRadius = '4px';
+        element.style.cursor = 'pointer';
+        element.style.pointerEvents = 'auto';
+
+        // Add click event to show info
+        element.addEventListener('click', () => alert(point.info));
+
+        overlayContainer.appendChild(element);
+        overlays.push({ element, position: point.position });
+    });
+}
+
+// Update Overlay Positions
+function updateOverlayPositions() {
+    overlays.forEach(({ element, position }) => {
+        const screenPosition = position.clone();
+        screenPosition.project(camera);
+
+        const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-screenPosition.y * 0.5 + 0.5) * window.innerHeight;
+
+        element.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+        element.style.display = screenPosition.z < 1 ? 'block' : 'none'; // Hide if behind the camera
+    });
+}
 
 // Animation Loop
 function animate() {
-	requestAnimationFrame(animate);
-	renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+
+    // Update overlays
+    updateOverlayPositions();
+
+    // Render the scene
+    controls.update();
+    renderer.render(scene, camera);
 }
 
 animate();
