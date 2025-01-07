@@ -1,7 +1,6 @@
-// import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js';
-// import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
-import { GLTFLoader } from 'loaders';
+import { GLTFLoader } from 'three/loaders';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // Scene, Camera, and Renderer
 const scene = new THREE.Scene();
@@ -15,6 +14,9 @@ const renderer = new THREE.WebGLRenderer();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Add Orbit Controls
+const controls = new OrbitControls(camera, renderer.domElement);
 
 // Add Light
 const light = new THREE.DirectionalLight(0xffffff, 1);
