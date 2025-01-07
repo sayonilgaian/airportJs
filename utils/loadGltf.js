@@ -5,7 +5,7 @@ export default function loadGltf(filePath = '', scene) {
 	const loader = new GLTFLoader();
 	let model;
 	loader.load(
-        filePath,
+		filePath,
 		(gltf) => {
 			model = gltf.scene;
 			scene.add(model);
@@ -13,5 +13,4 @@ export default function loadGltf(filePath = '', scene) {
 		undefined,
 		(error) => console.error(error)
 	);
-    return model
 }
