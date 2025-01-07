@@ -34,12 +34,12 @@ function onMouseClick() {
 		console.log('Clicked on:', selectedObject?.name);
 
 		// // Show info
-		// showInfo(selectedObject);
+		showInfo(selectedObject);
 
 		// Highlight object
-		// highlightObject(selectedObject);
+		highlightObject(selectedObject);
 
-		// focusOnObject(selectedObject);
+		focusOnObject(selectedObject);
 	}
 }
 
@@ -49,8 +49,8 @@ function showInfo(object) {
 	info.style.left = `${event.clientX}px`;
 	info.style.top = `${event.clientY}px`;
 	info.innerHTML = `
-    <strong>From Click</strong>
-    <strong>${object.name || 'Unnamed Object'}</strong><br>
+    <strong>Info:</strong><br/>
+    <strong>${object?.parent?.name || 'Unnamed Object'}</strong><br>
     <em>${object.userData?.description || 'No description available'}</em>
   `;
 }
