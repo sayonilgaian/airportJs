@@ -27,7 +27,9 @@ scene.add(light);
 const loader = new GLTFLoader();
 let model;
 loader.load(
-    './models/scene.gltf', // Replace with your model path
+    // './models/airport1/scene.gltf', // Replace with your model path
+    // './models/airport2/scene.gltf', // Replace with your model path
+    './models/airport3/scene.gltf', // Replace with your model path
     (gltf) => {
         model = gltf.scene;
         scene.add(model);
@@ -46,57 +48,9 @@ loader.load(
 camera.position.set(0, 5, 10);
 controls.update();
 
-// Overlay Container
-const overlayContainer = document.createElement('div');
-overlayContainer.style.position = 'absolute';
-overlayContainer.style.top = '0';
-overlayContainer.style.left = '0';
-overlayContainer.style.width = '100%';
-overlayContainer.style.height = '100%';
-overlayContainer.style.pointerEvents = 'none';
-document.body.appendChild(overlayContainer);
-
-// Add Text Overlays
-const overlays = [];
-function addTextOverlays(points) {
-    points.forEach((point) => {
-        const element = document.createElement('div');
-        element.textContent = point.text;
-        element.style.position = 'absolute';
-        element.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-        element.style.padding = '4px 8px';
-        element.style.borderRadius = '4px';
-        element.style.cursor = 'pointer';
-        element.style.pointerEvents = 'auto';
-
-        // Add click event to show info
-        element.addEventListener('click', () => alert(point.info));
-
-        overlayContainer.appendChild(element);
-        overlays.push({ element, position: point.position });
-    });
-}
-
-// Update Overlay Positions
-function updateOverlayPositions() {
-    overlays.forEach(({ element, position }) => {
-        const screenPosition = position.clone();
-        screenPosition.project(camera);
-
-        const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
-        const y = (-screenPosition.y * 0.5 + 0.5) * window.innerHeight;
-
-        element.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
-        element.style.display = screenPosition.z < 1 ? 'block' : 'none'; // Hide if behind the camera
-    });
-}
-
 // Animation Loop
 function animate() {
     requestAnimationFrame(animate);
-
-    // Update overlays
-    updateOverlayPositions();
 
     // Render the scene
     controls.update();
