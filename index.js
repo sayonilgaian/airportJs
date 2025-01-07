@@ -1,64 +1,10 @@
-import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import * as THREE from 'three';
+import loadGltf from './utils/loadGltf.js';
+import createScene from './utils/createScene.js';
 
-// Scene setup
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000);
+let { scene, camera, renderer, controls } = createScene();
 
-const camera = new THREE.PerspectiveCamera(
-	75,
-	window.innerWidth / window.innerHeight,
-	0.1,
-	1000
-);
-camera.position.set(0, 1, 5);
-
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.shadowMap.enabled = true;
-document.body.appendChild(renderer.domElement);
-
-// Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 5, 5).normalize();
-directionalLight.castShadow = true;
-scene.add(directionalLight);
-
-// Controls
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.update();
-
-// Load the GLTF model
-const loader = new GLTFLoader();
-loader.load(
-	"model/airport.glb",
-	function (gltf) {
-		console.log(gltf.scene); // Debug the model
-
-		// Fix materials and shadows
-		gltf.scene.traverse((object) => {
-			if (object.isMesh) {
-				object.material.needsUpdate = true;
-				object.castShadow = true;
-				object.receiveShadow = true;
-			}
-		});
-
-		// Add the model to the scene
-		scene.add(gltf.scene);
-	},
-	function (xhr) {
-		console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-	},
-	function (error) {
-		console.error("An error happened", error);
-	}
-);
+loadGltf(scene, 'model/airport.glb');
 
 // Animation loop
 function animate() {
@@ -71,8 +17,8 @@ animate();
 // Raycaster setup
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-window.addEventListener("mousemove", onMouseMove, false);
-window.addEventListener("click", onMouseClick, false);
+window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('click', onMouseClick, false);
 
 function onMouseMove(event) {
 	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -85,27 +31,27 @@ function onMouseClick() {
 
 	if (intersects.length > 0) {
 		const selectedObject = intersects[0].object;
-		console.log("Clicked on:", selectedObject);
+		console.log('Clicked on:', selectedObject?.name);
 
-		// Show info
-		showInfo(selectedObject);
+		// // Show info
+		// showInfo(selectedObject);
 
 		// Highlight object
-		highlightObject(selectedObject);
+		// highlightObject(selectedObject);
 
-		focusOnObject(selectedObject);
+		// focusOnObject(selectedObject);
 	}
 }
 
 function showInfo(object) {
-	const info = document.getElementById("info");
-	info.style.display = "block";
+	const info = document.getElementById('info');
+	info.style.display = 'block';
 	info.style.left = `${event.clientX}px`;
 	info.style.top = `${event.clientY}px`;
 	info.innerHTML = `
     <strong>From Click</strong>
-    <strong>${object.name || "Unnamed Object"}</strong><br>
-    <em>${object.userData?.description || "No description available"}</em>
+    <strong>${object.name || 'Unnamed Object'}</strong><br>
+    <em>${object.userData?.description || 'No description available'}</em>
   `;
 }
 
