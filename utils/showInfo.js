@@ -30,10 +30,12 @@ function showInfo(object, camera) {
 	// Create tooltip content
 	const tooltipContent = `
 		<strong>Info:</strong><br/>
-		<strong>${object?.parent?.name || 'Unnamed Object'}</strong><br/>
 		<em>${
-			JSON.stringify(object?.parent?.userData?.basicData) ||
-			'No description available'
+			object?.parent?.userData?.basicData
+				? `Flight number: ${object?.parent?.userData?.basicData?.FlightNumber} <br/>
+				Airline Name: ${object?.parent?.userData?.basicData?.AirlineName} <br/>
+				Gate: ${object?.parent?.userData?.basicData?.Gate}`
+				: 'No description available'
 		}</em>
 	`;
 
