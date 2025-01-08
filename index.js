@@ -3,6 +3,7 @@ import loadGltf from "./utils/loadGltf.js";
 import createScene from "./utils/createScene.js";
 import flyPlane from "./utils/flyPlane.js";
 import focusOnObject from "./utils/focusOnObject.js";
+import highlightObject from "./utils/highlightObject.js";
 
 let { scene, camera, renderer, controls } = createScene();
 const flyPath = [
@@ -98,11 +99,4 @@ function showInfo(object) {
     <strong>${object?.parent?.name || "Unnamed Object"}</strong><br>
     <em>${object.userData?.description || "No description available"}</em>
   `;
-}
-
-function highlightObject(object) {
-	if (object.material) {
-		object.material = object.material.clone();
-		object.material.emissive = new THREE.Color(0x4444ff); // Highlight color
-	}
 }
