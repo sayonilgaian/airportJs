@@ -9,7 +9,7 @@ import addObjectData from './utils/addObjectData.js';
 import flyPlane from './utils/flyPlane.js';
 import { flyPath, flyPath2 } from './data/flyPaths.js';
 
-let isAnimating = false; // Animation state
+let isAnimating = true; // Animation state
 
 // Select the button and add event listener
 const button = document.getElementById('toggle-button');
@@ -26,7 +26,10 @@ loadGltf({
 	callback: addObjectData,
 	loading: (loadStatus) => {
 		if (loadStatus < 1) return;
-		loadPlanes({ scene });
+		loadPlanes({ scene, planeCallback:(planeObject)=> {
+			planeObject.position.y = -10 // temporary measure to hide unwanted plane parts
+			scene.add(planeObject)
+		} });
 	},
 });
 

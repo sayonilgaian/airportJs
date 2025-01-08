@@ -5,6 +5,7 @@ export default function loadGltf({
 	filePath,
 	callback = null,
 	loading = null,
+	addObject = true
 }) {
 	// Load the GLTF model
 	const loader = new GLTFLoader();
@@ -23,14 +24,14 @@ export default function loadGltf({
 			});
 
 			// Add the model to the scene
-			scene.add(gltf.scene);
+			addObject && scene.add(gltf.scene);
 
 			if (callback) {
 				callback(gltf.scene);
 			}
 		},
 		function (xhr) {
-			// console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+			console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
 			if (loading) {
 				loading(xhr.loaded / xhr.total);
 			}
@@ -39,6 +40,4 @@ export default function loadGltf({
 			console.error('An error happened', error);
 		}
 	);
-
-	return loader;
 }
