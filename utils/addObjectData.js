@@ -22,9 +22,9 @@ export default async function addObjectData(gltfScene) {
 
 	// Traverse the scene and process matching objects
 	await gltfScene.traverse(async (object) => {
-
 		if (
 			object.name &&
+			!object.userData.basicData &&
 			(object.name.includes('Airplane') || object.name.includes('American'))
 		) {
 			await addDataRecursively(object);
