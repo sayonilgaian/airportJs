@@ -30,7 +30,7 @@ export default function loadGltf({
 			}
 		},
 		function (xhr) {
-			console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+			// console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
 			if (loading) {
 				loading(xhr.loaded / xhr.total);
 			}

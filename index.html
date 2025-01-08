@@ -2,7 +2,9 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
 		<title>Render 3D Model</title>
 		<style>
 			body {
@@ -26,6 +28,25 @@
 		<script src="https://unpkg.com/tippy.js@6"></script>
 	</head>
 	<body>
-		<script type="module" src="./index.js"></script>
+		<div
+			id="three-container"
+			style="position: relative;">
+			<button
+				id="toggle-button"
+				style="
+					position: absolute;
+					top: 10px;
+					left: 10px;
+					z-index: 10;
+					padding: 10px;
+					font-size: 14px;
+					cursor: pointer;
+				">
+				Pause Animation
+			</button>
+		</div>
+		<script
+			type="module"
+			src="./index.js"></script>
 	</body>
 </html>
