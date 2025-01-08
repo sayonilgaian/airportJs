@@ -23,7 +23,6 @@ let { scene, camera, renderer, controls } = createScene();
 loadGltf({
 	scene,
 	filePath: "model/airport.glb",
-	callback: addObjectData,
 	loading: (loadStatus) => {
 		if (loadStatus < 1) return;
 		loadPlanes({ scene, planeCallback:(planeObject)=> {
@@ -40,7 +39,7 @@ const clock = new THREE.Clock();
 
 function animate() {
 	requestAnimationFrame(animate);
-
+	addObjectData(scene)
 	const deltaTime = clock.getDelta(); // Time since last frame
 
 	if (isAnimating) {

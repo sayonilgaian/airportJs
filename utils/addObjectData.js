@@ -28,7 +28,6 @@ export default async function addObjectData(gltfScene) {
 			(object.name.includes('Airplane') || object.name.includes('American'))
 		) {
 			await addDataRecursively(object);
-			console.log(`Data added to: ${object.name} and its children`);
 		}
 	});
 }
