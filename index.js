@@ -4,6 +4,7 @@ import createScene from "./utils/createScene.js";
 import flyPlane from "./utils/flyPlane.js";
 import focusOnObject from "./utils/focusOnObject.js";
 import highlightObject from "./utils/highlightObject.js";
+import showInfo from "./utils/showInfo.js";
 
 let { scene, camera, renderer, controls } = createScene();
 const flyPath = [
@@ -71,7 +72,7 @@ function onMouseMove(event) {
 	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-function onMouseClick() {
+function onMouseClick(event) {
 	raycaster.setFromCamera(mouse, camera);
 	const intersects = raycaster.intersectObjects(scene.children, true);
 
@@ -80,23 +81,11 @@ function onMouseClick() {
 		console.log("Clicked on:", selectedObject?.name);
 
 		// // Show info
-		showInfo(selectedObject);
+		showInfo(selectedObject, camera);
 
 		// Highlight object
 		highlightObject(selectedObject);
 
 		focusOnObject(camera, controls, selectedObject);
 	}
-}
-
-function showInfo(object) {
-	const info = document.getElementById("info");
-	info.style.display = "block";
-	info.style.left = `${event.clientX}px`;
-	info.style.top = `${event.clientY}px`;
-	info.innerHTML = `
-    <strong>Info:</strong><br/>
-    <strong>${object?.parent?.name || "Unnamed Object"}</strong><br>
-    <em>${object.userData?.description || "No description available"}</em>
-  `;
 }
