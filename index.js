@@ -36,6 +36,18 @@ window.addEventListener('click', onMouseClick, false);
 function onMouseMove(event) {
 	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+	raycaster.setFromCamera(mouse, camera);
+	const intersects = raycaster.intersectObjects(scene.children, true);
+
+	if (intersects.length > 0) {
+		const selectedObject = intersects[0].object;
+		if (
+			selectedObject?.name?.includes('Airplane') ||
+			selectedObject?.parent?.name?.includes('Airplane')
+		) {
+		}
+	}
 }
 
 function onMouseClick(event) {
@@ -46,7 +58,7 @@ function onMouseClick(event) {
 		const selectedObject = intersects[0].object;
 		console.log('Clicked on:', selectedObject?.name);
 
-		// // Show info
+		// Show info
 		showInfo(selectedObject, camera);
 
 		// Highlight object
