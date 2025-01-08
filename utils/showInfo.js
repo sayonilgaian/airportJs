@@ -56,6 +56,7 @@ function showInfo(object, camera) {
 		animation: 'scale', // Smooth scaling animation
 		theme: 'light-border',
 		duration: [300, 200],
+		allowHTML: true, // Allow HTML content to be rendered
 	});
 
 	activeTooltip.show();
