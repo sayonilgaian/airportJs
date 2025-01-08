@@ -1,5 +1,5 @@
-import tippy from "https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/+esm";
-import * as THREE from "three";
+import tippy from 'https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/+esm';
+import * as THREE from 'three';
 
 // Utility to convert 3D position to 2D screen coordinates
 function toScreenPosition(obj, camera) {
@@ -20,6 +20,7 @@ function toScreenPosition(obj, camera) {
 let activeTooltip = null;
 
 function showInfo(object, camera) {
+	console.log('object', object);
 	// Clear any existing tooltip
 	if (activeTooltip) {
 		activeTooltip.destroy();
@@ -29,28 +30,31 @@ function showInfo(object, camera) {
 	// Create tooltip content
 	const tooltipContent = `
 		<strong>Info:</strong><br/>
-		<strong>${object?.parent?.name || "Unnamed Object"}</strong><br/>
-		<em>${object.userData?.description || "No description available"}</em>
+		<strong>${object?.parent?.name || 'Unnamed Object'}</strong><br/>
+		<em>${
+			JSON.stringify(object?.parent?.userData?.basicData) ||
+			'No description available'
+		}</em>
 	`;
 
 	// Convert 3D object position to 2D screen position
 	const { x, y } = toScreenPosition(object, camera);
 
 	// Create a temporary element to attach the tooltip
-	const tooltipElement = document.createElement("div");
-	tooltipElement.style.position = "absolute";
+	const tooltipElement = document.createElement('div');
+	tooltipElement.style.position = 'absolute';
 	tooltipElement.style.left = `${x}px`;
 	tooltipElement.style.top = `${y}px`;
-	tooltipElement.style.pointerEvents = "none"; // Avoid blocking scene interactions
+	tooltipElement.style.pointerEvents = 'none'; // Avoid blocking scene interactions
 	document.body.appendChild(tooltipElement);
 
 	// Initialize Tippy.js on the temporary element
 	activeTooltip = tippy(tooltipElement, {
 		content: tooltipContent,
-		trigger: "manual", // Manual trigger to control visibility
-		placement: "top", // Default placement
-		animation: "scale", // Smooth scaling animation
-		theme: "light-border",
+		trigger: 'manual', // Manual trigger to control visibility
+		placement: 'top', // Default placement
+		animation: 'scale', // Smooth scaling animation
+		theme: 'light-border',
 		duration: [300, 200],
 	});
 

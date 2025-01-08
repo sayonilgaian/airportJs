@@ -5,12 +5,14 @@ import focusOnObject from './utils/focusOnObject.js';
 import highlightObject from './utils/highlightObject.js';
 import showInfo from './utils/showInfo.js';
 import loadPlanes from './utils/loadPlanes.js';
+import addObjectData from './utils/addObjectData.js';
 
 let { scene, camera, renderer, controls } = createScene();
 
 loadGltf({
 	scene,
 	filePath: 'model/updated-airport.glb',
+	callback: addObjectData,
 	loading: (loadStatus) => {
 		if (loadStatus < 1) return;
 		loadPlanes({ scene });
