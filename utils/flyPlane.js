@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
 export default function flyPlane({
 	airCraftObject,
@@ -14,14 +14,17 @@ export default function flyPlane({
 	],
 	delay = 0, // Delay in seconds before the plane starts flying
 	offset = 0, // Offset along the curve (normalized 0 to 1)
+	rotateX = 0,
+	rotateY = 0,
+	rotateZ = 0,
 }) {
 	if (!airCraftObject) {
-		console.error("airCraftObject is undefined.");
+		console.error('airCraftObject is undefined.');
 		return;
 	}
 
 	if (!Array.isArray(flyPath) || flyPath.length < 2) {
-		console.error("flyPath must be an array with at least two points.");
+		console.error('flyPath must be an array with at least two points.');
 		return;
 	}
 
@@ -58,8 +61,9 @@ export default function flyPlane({
 		airCraftObject.quaternion.setFromRotationMatrix(lookAtMatrix);
 
 		// Adjust initial orientation for specific axis alignment
-		airCraftObject.rotateX(Math.PI / 2);
-		airCraftObject.rotateZ(Math.PI / 2);
+		airCraftObject.rotateX(rotateX);
+		airCraftObject.rotateY(rotateY);
+		airCraftObject.rotateZ(rotateZ);
 
 		// Continue the animation
 		requestAnimationFrame(animate);
