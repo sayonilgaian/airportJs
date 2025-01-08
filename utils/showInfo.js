@@ -20,6 +20,7 @@ function toScreenPosition(obj, camera) {
 let activeTooltip = null;
 
 function showInfo(object, camera) {
+	console.log("object", object);
 	// Clear any existing tooltip
 	if (activeTooltip) {
 		activeTooltip.destroy();
@@ -30,7 +31,10 @@ function showInfo(object, camera) {
 	const tooltipContent = `
 		<strong>Info:</strong><br/>
 		<strong>${object?.parent?.name || "Unnamed Object"}</strong><br/>
-		<em>${object.userData?.description || "No description available"}</em>
+		<em>${
+			JSON.stringify(object?.parent?.userData?.basicData) ||
+			"No description available"
+		}</em>
 	`;
 
 	// Convert 3D object position to 2D screen position
@@ -53,6 +57,7 @@ function showInfo(object, camera) {
 		animation: "scale", // Smooth scaling animation
 		theme: "light-border",
 		duration: [300, 200],
+		allowHTML: true, // Allow HTML content to be rendered
 	});
 
 	activeTooltip.show();
