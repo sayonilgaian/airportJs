@@ -20,7 +20,6 @@ function toScreenPosition(obj, camera) {
 let activeTooltip = null;
 
 function showInfo(object, camera) {
-	console.log("object", object);
 	// Clear any existing tooltip
 	if (activeTooltip) {
 		activeTooltip.destroy();
