@@ -44,9 +44,10 @@ function showInfo(object, camera) {
 	tooltipElement.style.pointerEvents = "none"; // Avoid blocking scene interactions
 	document.body.appendChild(tooltipElement);
 
-	// Initialize Tippy.js on the temporary element
+	// Initialize Tippy.js on the temporary element with a slight delay
 	activeTooltip = tippy(tooltipElement, {
 		content: tooltipContent,
+		allowHTML: true,
 		trigger: "manual", // Manual trigger to control visibility
 		placement: "top", // Default placement
 		animation: "scale", // Smooth scaling animation
@@ -55,15 +56,6 @@ function showInfo(object, camera) {
 	});
 
 	activeTooltip.show();
-
-	// Clean up tooltip on next interaction
-	// window.addEventListener("mousemove", () => {
-	// 	if (activeTooltip) {
-	// 		activeTooltip.destroy();
-	// 		activeTooltip = null;
-	// 		tooltipElement.remove();
-	// 	}
-	// });
 }
 
 export default showInfo;
