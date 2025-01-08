@@ -1,41 +1,20 @@
 import * as THREE from 'three';
 import loadGltf from './utils/loadGltf.js';
 import createScene from './utils/createScene.js';
-import flyPlane from './utils/flyPlane.js';
 import focusOnObject from './utils/focusOnObject.js';
 import highlightObject from './utils/highlightObject.js';
 import showInfo from './utils/showInfo.js';
-import { flyPath } from './data/flyPaths.js';
+import loadPlanes from './utils/loadPlanes.js';
 
 let { scene, camera, renderer, controls } = createScene();
 
-loadGltf(scene, 'model/updated-airport.glb');
-loadGltf(scene, 'model/AIRPLANE.glb', (sc) => {
-	flyPlane({
-		airCraftObject: sc,
-		delay: 2,
-		offset: 0.1,
-		speed: 150,
-		rotateY: Math.PI,
-	});
-	// const clone = sc.clone();
-	// scene.add(clone);
-	// flyPlane({
-	// 	airCraftObject: clone,
-	// 	flyPath,
-	// 	delay: 2,
-	// 	offset: 0.1,
-	// 	speed: 50,
-	// });
-	// const clone2 = sc.clone();
-	// scene.add(clone2);
-	// flyPlane({
-	// 	airCraftObject: clone2,
-	// 	flyPath: flyPath2,
-	// 	delay: 2,
-	// 	offset: 0.1,
-	// 	speed: 50,
-	// });
+loadGltf({
+	scene,
+	filePath: 'model/updated-airport.glb',
+	loading: (loadStatus) => {
+		if (loadStatus < 1) return;
+		loadPlanes({ scene });
+	},
 });
 
 // Animation loop
