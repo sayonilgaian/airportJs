@@ -1,0 +1,4 @@
+model/airport.glb filter=lfs diff=lfs merge=lfs -text
+model/_Airport-Turbosquid0.glb filter=lfs diff=lfs merge=lfs -text
+model/_Airport-Turbosquid1.glb filter=lfs diff=lfs merge=lfs -text
+model/AIRPLANE.glb filter=lfs diff=lfs merge=lfs -text
