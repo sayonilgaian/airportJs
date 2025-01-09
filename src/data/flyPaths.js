@@ -17,8 +17,8 @@ const flyPath2 = [
 	new THREE.Vector3(-40, 4 + verticalOffset, 20 + zOffset), // Take off point
 	new THREE.Vector3(-250, 80, 20 + zOffset), // Mid-air
 	new THREE.Vector3(-250, 80, -250 + zOffset), // Turn right
-	new THREE.Vector3(260, 80, -250 + zOffset), // Turn right
-	new THREE.Vector3(260, 80, 20 + zOffset), // Turn right
+	new THREE.Vector3(280, 80, -250 + zOffset), // Turn right
+	new THREE.Vector3(280, 80, 20 + zOffset), // Turn right
 	new THREE.Vector3(150, 4 + verticalOffset, 20 + zOffset), // Start point
 ];
 

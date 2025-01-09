@@ -1,7 +1,7 @@
 import highlightObject from "./highlightObject.js";
 import showInfo from "./showInfo.js";
 
-function updateToolTip(camera, raycaster, mouse, scene, callback = null) {
+function updateToolTip(camera, raycaster, mouse, scene, callback = null, showDetails = false) {
 	raycaster.setFromCamera(mouse, camera);
 	const intersects = raycaster.intersectObjects(scene.children, true);
 
@@ -9,7 +9,7 @@ function updateToolTip(camera, raycaster, mouse, scene, callback = null) {
 		const selectedObject = intersects[0].object;
 
 		// // Show info
-		showInfo(selectedObject, camera);
+		showInfo(selectedObject, camera, showDetails);
 
 		// Highlight object
 		highlightObject(selectedObject);

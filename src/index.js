@@ -89,6 +89,7 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 window.addEventListener('mousemove', debounce(onMouseMove, 100), false);
 window.addEventListener('click', onMouseClick, false);
+window.addEventListener('dblclick', onMouseDblClick, false);
 
 function onMouseMove(event) {
 	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -97,7 +98,16 @@ function onMouseMove(event) {
 }
 
 function onMouseClick(event) {
-	updateToolTip(camera, raycaster, mouse, scene, (obj) =>
-		focusOnObject(camera, controls, obj)
+	updateToolTip(camera, raycaster, mouse, scene, null, true);
+}
+
+function onMouseDblClick(event) {
+	updateToolTip(
+		camera,
+		raycaster,
+		mouse,
+		scene,
+		(obj) => focusOnObject(camera, controls, obj),
+		true
 	);
 }
