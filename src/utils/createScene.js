@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 
 export default function createScene() {
 	// Scene setup
@@ -26,8 +27,26 @@ export default function createScene() {
 	directionalLight.castShadow = true;
 	scene.add(directionalLight);
 
+	// Load environment texture
+	const textureLoader = new THREE.CubeTextureLoader();
+	const environmentTexture = textureLoader.load([
+		'../../model/background/wireframe.png',
+		'../../model/background/wireframe.png',
+		'../../model/background/wireframe.png',
+		'../../model/background/wireframe.png',
+		'../../model/background/wireframe.png',
+		'../../model/background/wireframe.png',
+	]);
+
+	scene.environment = environmentTexture; // Apply as environment
+	scene.background = environmentTexture; // Apply as background
+
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
+	controls.maxDistance = 500; // Maximum zoom-out distance
+    controls.minDistance = 50;  // Optional: Minimum zoom-in distance
+	// Prevent camera from rotating below the horizontal plane (positive Y)
+    controls.maxPolarAngle = Math.PI / 2; // 90 degrees (horizontal plane)
 	controls.update();
 
 	return { scene, camera, renderer, controls };
