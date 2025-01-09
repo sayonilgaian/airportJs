@@ -6,16 +6,16 @@ import loadPlanes from "./utils/loadPlanes.js";
 import addObjectData from "./utils/addObjectData.js";
 import updateToolTip from "./utils/updateToolTip.js";
 import { debounce } from "./helpers/index.js";
-import flyPlane from './utils/flyPlane.js';
-import { flyPath, flyPath2 } from './data/flyPaths.js';
+import flyPlane from "./utils/flyPlane.js";
+import { flyPath, flyPath2 } from "./data/flyPaths.js";
 
 let isAnimating = true; // Animation state
 
 // Select the button and add event listener
-const button = document.getElementById('toggle-button');
-button.addEventListener('click', () => {
+const button = document.getElementById("toggle-button");
+button.addEventListener("click", () => {
 	isAnimating = !isAnimating;
-	button.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
+	button.textContent = isAnimating ? "Pause Animation" : "Play Animation";
 });
 
 let { scene, camera, renderer, controls } = createScene();
@@ -25,10 +25,13 @@ loadGltf({
 	filePath: "model/airport.glb",
 	loading: (loadStatus) => {
 		if (loadStatus < 1) return;
-		loadPlanes({ scene, planeCallback:(planeObject)=> {
-			planeObject.position.y = -10 // temporary measure to hide unwanted plane parts
-			scene.add(planeObject)
-		} });
+		loadPlanes({
+			scene,
+			planeCallback: (planeObject) => {
+				planeObject.position.y = -10; // temporary measure to hide unwanted plane parts
+				scene.add(planeObject);
+			},
+		});
 	},
 });
 
@@ -39,13 +42,13 @@ const clock = new THREE.Clock();
 
 function animate() {
 	requestAnimationFrame(animate);
-	addObjectData(scene)
+	addObjectData(scene);
 	const deltaTime = clock.getDelta(); // Time since last frame
 
 	if (isAnimating) {
 		let planes = [];
 		scene.traverse((object) => {
-			if (object?.name?.includes('American+Airlines')) {
+			if (object?.name?.includes("American+Airlines")) {
 				planes.push(object);
 			}
 		});

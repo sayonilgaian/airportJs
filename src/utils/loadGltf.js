@@ -1,11 +1,11 @@
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export default function loadGltf({
 	scene,
 	filePath,
 	callback = null,
 	loading = null,
-	addObject = true
+	addObject = true,
 }) {
 	// Load the GLTF model
 	const loader = new GLTFLoader();
@@ -24,20 +24,22 @@ export default function loadGltf({
 			});
 
 			// Add the model to the scene
-			addObject && scene.add(gltf.scene);
+			if (addObject) {
+				scene.add(gltf.scene);
+			}
 
 			if (callback) {
 				callback(gltf.scene);
 			}
 		},
 		function (xhr) {
-			console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+			console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
 			if (loading) {
 				loading(xhr.loaded / xhr.total);
 			}
 		},
 		function (error) {
-			console.error('An error happened', error);
+			console.error("An error happened", error);
 		}
 	);
 }
