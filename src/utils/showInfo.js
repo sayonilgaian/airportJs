@@ -30,12 +30,16 @@ function showInfo(object, camera, showDetails = false) {
 	<style>
 		.tippy-box {
 			background-color: transparent !important;
+			bottom: 40px;
 		}
 		.tippy-arrow {
 			z-index: 1;
 		}
 		.tippy-arrow:before {
-			color: rgb(2, 1, 46, 0.9);
+			color: #ffffffe6;
+			bottom: -39px !important;
+			left: 5px !important;
+			border-width: 40px 2px 0 !important;
 		}
 		.tooltip {
 			background-color: rgb(2, 1, 46, 0.9); 
@@ -43,12 +47,11 @@ function showInfo(object, camera, showDetails = false) {
 			font-family: Arial, sans-serif;
 			font-size: 14px;
 			padding: 15px;
-			text-align: center;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			border-radius: 20px;
+			border-radius: 30px;
 			border: 1px solid white;
 		}
 		.tippy-content {
@@ -60,9 +63,9 @@ function showInfo(object, camera, showDetails = false) {
 			<strong>Info:</strong><br/>
 			${
 				object?.parent?.userData?.basicData
-					? `Flight number: ${
+					? `Flight number: <strong>${
 							object?.parent?.userData?.detailedData?.FlightNumber
-					  } <br/>
+					  }</strong> <br/>
 					Airline Name: ${object?.parent?.userData?.detailedData?.AirlineName} <br/>
 					Gate: ${object?.parent?.userData?.detailedData?.Gate}
 					${
@@ -104,7 +107,7 @@ function showInfo(object, camera, showDetails = false) {
 		allowHTML: true, // Allow HTML content to be rendered
 	});
 
-	activeTooltip.show();
+	object?.parent?.userData?.basicData && activeTooltip.show();
 }
 
 export default showInfo;
