@@ -7,8 +7,9 @@ function updateToolTip(camera, raycaster, mouse, scene, callback = null, showDet
 
 	if (intersects.length > 0) {
 		const selectedObject = intersects[0].object;
+		// console.log('===',selectedObject)
 
-		// // Show info
+		// Show info
 		showInfo(selectedObject, camera, showDetails);
 
 		// Highlight object

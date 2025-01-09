@@ -1,13 +1,13 @@
 const destinations = ['Sydney', 'LA', 'California', 'Dubai', 'London'];
 
-const basicInfo = {
+const aircraftBasicInfo = {
 	FlightNumber: `LUF-${parseInt(Math.random() * 1000)}`,
 	AirlineName: 'Lufthansa',
 	Gate: `G${parseInt(Math.random() * 10)}`,
 };
 
-const detailedInfo = {
-	...basicInfo,
+const aircraftDetailedInfo = {
+	...aircraftBasicInfo,
 	Destination: destinations[parseInt(Math.random() * destinations.length - 1)],
 	ScheduledTime: Date.now(),
 	ActualTime: Date.now(),
@@ -15,4 +15,4 @@ const detailedInfo = {
 	Status: ['Boarding', 'Departed', 'Delayed'][parseInt(Math.random() * 3)],
 };
 
-export { basicInfo, detailedInfo };
+export { aircraftBasicInfo, aircraftDetailedInfo };

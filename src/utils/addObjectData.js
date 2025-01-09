@@ -1,16 +1,53 @@
-import { basicInfo, detailedInfo } from '../data/toolTipData/aircraft.js';
+import {
+	aircraftBasicInfo,
+	aircraftDetailedInfo,
+} from '../data/toolTipData/aircraft.js';
+import {
+	towerBasicInfo,
+	towerDetailedInfo,
+} from '../data/toolTipData/controlTowers.js';
+import {
+	gatesBasicInfo,
+	gatesDetailedInfo,
+} from '../data/toolTipData/gates.js';
+import {
+	parkingBasicInfo,
+	parkingDetailedInfo,
+} from '../data/toolTipData/parking.js';
+import {
+	basicRunwayInfo,
+	detailedRunwayInfo,
+} from '../data/toolTipData/runways.js';
+import {
+	terminalBasicInfo,
+	terminalDetailedInfo,
+} from '../data/toolTipData/terminals.js';
 
-export default function addObjectData({ scene, sceneObjects = [] }) {
+export default function addObjectData({ scene, sceneObjects = [], type }) {
+	const objectDataInsertion = {
+		aircraft: {
+			basicInfo: aircraftBasicInfo,
+			detailedInfo: aircraftDetailedInfo,
+		},
+		tower: {
+			basicInfo: towerBasicInfo,
+			detailedInfo: towerDetailedInfo,
+		},
+	};
+
 	if (!scene) {
 		console.error('No GLTF scene provided');
 		return;
 	}
-	if (sceneObjects.length > 0) {
-		addPlanesData({ sceneObjects });
-	}
+
+	addSceneObjectsData({
+		sceneObjects,
+		basicInfo: objectDataInsertion[type].basicInfo,
+		detailedInfo: objectDataInsertion[type].detailedInfo,
+	});
 }
 
-function addPlanesData({ sceneObjects = [] }) {
+function addSceneObjectsData({ sceneObjects = [], basicInfo, detailedInfo }) {
 	// Function to recursively add data to an object and its children
 	function addDataRecursively(sceneObject) {
 		// Add user data to the object itself

@@ -23,6 +23,7 @@ button.addEventListener('click', () => {
 let { scene, camera, renderer, controls } = createScene();
 
 let aircraftObjects = [];
+let towerObjects = [];
 
 loadGltf({
 	scene,
@@ -32,6 +33,12 @@ loadGltf({
 		scene?.traverse((sceneObject) => {
 			if (sceneObject?.name?.includes('Airplane')) {
 				aircraftObjects.push(sceneObject);
+			}
+		});
+		// add static planes which are part of gltf file too
+		scene?.traverse((sceneObject) => {
+			if (sceneObject?.name?.includes('Tower')) {
+				towerObjects.push(sceneObject);
 			}
 		});
 	},
@@ -53,7 +60,10 @@ const clock = new THREE.Clock();
 function animate() {
 	requestAnimationFrame(animate);
 	if (aircraftObjects.length == airCraftNumber) {
-		addObjectData({ scene, sceneObjects: aircraftObjects });
+		addObjectData({ scene, sceneObjects: aircraftObjects, type: 'aircraft' });
+	}
+	if (towerObjects.length > 0) {
+		// addObjectData({ scene, sceneObjects: towerObjects, type: 'tower' });
 	}
 	const deltaTime = clock.getDelta(); // Time since last frame
 
