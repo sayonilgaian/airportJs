@@ -27,27 +27,38 @@ export default function createScene() {
 	directionalLight.castShadow = true;
 	scene.add(directionalLight);
 
-	// Load environment texture
-	const textureLoader = new THREE.CubeTextureLoader();
-	const environmentTexture = textureLoader.load([
-		'../../model/background/wireframe.png',
-		'../../model/background/wireframe.png',
-		'../../model/background/wireframe.png',
-		'../../model/background/wireframe.png',
-		'../../model/background/wireframe.png',
-		'../../model/background/wireframe.png',
-	]);
+	// Load texture for the floor
+	const textureLoader = new THREE.TextureLoader();
+	const floorTexture = textureLoader.load(
+		'../../model/background/wireframe.png'
+	);
 
-	scene.environment = environmentTexture; // Apply as environment
-	scene.background = environmentTexture; // Apply as background
+	// Repeat and wrap the texture infinitely
+	floorTexture.wrapS = THREE.RepeatWrapping;
+	floorTexture.wrapT = THREE.RepeatWrapping;
+	floorTexture.repeat.set(100, 100); // Adjust tiling; higher values for denser repeat
+
+	// Create a plane for the floor
+	const floorGeometry = new THREE.PlaneGeometry(10000, 10000); // Large plane to simulate infinity
+	const floorMaterial = new THREE.MeshBasicMaterial({
+		map: floorTexture,
+		side: THREE.DoubleSide,
+	});
+
+	// Floor mesh
+	const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+	floor.rotation.x = -Math.PI / 2; // Rotate to lie flat on the XZ plane
+	floor.position.y = 0; // Position at y = 0
+	floor.userData.type = 'floor';
+	scene.add(floor);
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
 	controls.maxDistance = 500; // Maximum zoom-out distance
-    controls.minDistance = 50;  // Optional: Minimum zoom-in distance
+	controls.minDistance = 50; // Optional: Minimum zoom-in distance
 	// Prevent camera from rotating below the horizontal plane (positive Y)
-    controls.maxPolarAngle = Math.PI / 2; // 90 degrees (horizontal plane)
+	controls.maxPolarAngle = Math.PI / 2; // 90 degrees (horizontal plane)
 	controls.update();
 
-	return { scene, camera, renderer, controls };
+	return { scene, camera, renderer, controls, floor };
 }

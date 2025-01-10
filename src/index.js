@@ -20,7 +20,7 @@ button.addEventListener('click', () => {
 	button.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
 
-let { scene, camera, renderer, controls } = createScene();
+let { scene, camera, renderer, controls, floor } = createScene();
 
 let aircraftObjects = [];
 let towerObjects = [];
@@ -104,20 +104,27 @@ window.addEventListener('dblclick', onMouseDblClick, false);
 function onMouseMove(event) {
 	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-	updateToolTip(camera, raycaster, mouse, scene);
+	updateToolTip({ camera, raycaster, mouse, scene });
 }
 
 function onMouseClick(event) {
-	updateToolTip(camera, raycaster, mouse, scene, null, true);
-}
-
-function onMouseDblClick(event) {
-	updateToolTip(
+	updateToolTip({
 		camera,
 		raycaster,
 		mouse,
 		scene,
-		(obj) => focusOnObject(camera, controls, obj),
-		true
-	);
+		callback: null,
+		showDetails: true,
+	});
+}
+
+function onMouseDblClick(event) {
+	updateToolTip({
+		camera,
+		raycaster,
+		mouse,
+		scene,
+		callback: (obj) => focusOnObject(camera, controls, obj),
+		showDetails: true,
+	});
 }
