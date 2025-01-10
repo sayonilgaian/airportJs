@@ -13,33 +13,14 @@ import addAircraft from './utils/addAircraft.js';
 let isAnimating = true; // Animation state
 const airCraftNumber = 7;
 
-// Select the button and add event listener
+// Select buttons and add event listeners
 const pauseButton = document.getElementById('toggle-button');
 const resetButton = document.getElementById('reset-button');
 pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
-resetButton.addEventListener('click', () => {
-	// Reset animation variables
-	planeT1 = 0;
-	planeT2 = 0;
-
-	// Reset positions of aircraft to the start of their respective flyPaths
-	if (aircraftObjects.length > 0) {
-		const startPosition1 = flyPath[0]; // Starting point of flyPath
-		const startPosition2 = flyPath2[0]; // Starting point of flyPath2
-
-		aircraftObjects[0].position.copy(startPosition1);
-		aircraftObjects[0].rotation.set(0, Math.PI, 0); // Reset orientation if needed
-
-		aircraftObjects[1].position.copy(startPosition2);
-		aircraftObjects[1].rotation.set(0, Math.PI, 0); // Reset orientation if needed
-	}
-
-	// Re-render the scene to reflect reset state
-	renderer.render(scene, camera);
-});
+resetButton.addEventListener('click', () => resetAnimation());
 
 let { scene, camera, renderer, controls, floor } = createScene();
 
@@ -50,51 +31,78 @@ let runways = [];
 let gates = [];
 let parkingZones = [];
 
-loadGltf({
-	scene,
-	filePath: 'model/airport.glb',
-	callback: (scene) => {
-		// add static scene objects which are part of gltf file
-		scene?.traverse((sceneObject) => {
-			if (sceneObject?.name?.includes('Airplane')) {
-				aircraftObjects.push(sceneObject);
-			}
-			if (sceneObject?.name?.includes('Tower')) {
-				towerObjects.push(sceneObject);
-			}
-			if (sceneObject?.name?.includes('Airport-Building')) {
-				terminals.push(sceneObject);
-			}
-			if (sceneObject?.name?.includes('airport-ground')) {
-				runways.push(sceneObject);
-			}
-			// TODO: when these objects are added in gltf, uncomment this
-			// if (sceneObject?.name?.includes('parking')) {
-			// 	gates.push(sceneObject);
-			// }
-			// if (sceneObject?.name?.includes('gates')) {
-			// 	parkingZones.push(sceneObject);
-			// }
-		});
-	},
-	loading: (loadStatus) => {
-		if (loadStatus < 1) return;
-		loadPlanes({
-			scene,
-			planeCallback: (aircraftObject) =>
-				addAircraft({ scene, aircraftObject, aircraftObjects }),
-		});
-	},
-});
-
 // Track the plane's normalized position along the curve
 let planeT1 = 0;
 let planeT2 = 0;
 const clock = new THREE.Clock();
 
+async function init() {
+	try {
+		// Load airport GLTF asynchronously
+		await loadGltf({
+			scene,
+			filePath: 'model/airport.glb',
+			callback: (scene) => {
+				// Add static scene objects
+				scene?.traverse((sceneObject) => {
+					if (sceneObject?.name?.includes('Airplane')) {
+						aircraftObjects.push(sceneObject);
+					}
+					if (sceneObject?.name?.includes('Tower')) {
+						towerObjects.push(sceneObject);
+					}
+					if (sceneObject?.name?.includes('Airport-Building')) {
+						terminals.push(sceneObject);
+					}
+					if (sceneObject?.name?.includes('airport-ground')) {
+						runways.push(sceneObject);
+					}
+				});
+			},
+		});
+		console.log('GLTF model loaded');
+
+		// Load plane models
+		setTimeout(async () => {
+			await loadPlanes({
+				scene,
+				planeCallback: (aircraftObject) =>
+					addAircraft({ scene, aircraftObject, aircraftObjects }),
+			});
+			console.log('Plane models loaded');
+		}, 1500);
+	} catch (error) {
+		console.error('Error initializing scene:', error);
+	}
+}
+
+// Start animation
+animate();
+
+function resetAnimation() {
+	planeT1 = 0;
+	planeT2 = 0;
+
+	// Reset positions of aircraft
+	if (aircraftObjects.length > 0) {
+		const startPosition1 = flyPath[0]; // Starting point of flyPath
+		const startPosition2 = flyPath2[0]; // Starting point of flyPath2
+
+		aircraftObjects[0].position.copy(startPosition1);
+		aircraftObjects[0].rotation.set(0, Math.PI, 0); // Reset orientation
+
+		aircraftObjects[1].position.copy(startPosition2);
+		aircraftObjects[1].rotation.set(0, Math.PI, 0); // Reset orientation
+	}
+
+	// Re-render scene
+	renderer.render(scene, camera);
+}
+
 function animate() {
 	requestAnimationFrame(animate);
-	if (aircraftObjects.length == airCraftNumber) {
+
+	if (aircraftObjects.length === airCraftNumber) {
 		addObjectData({ scene, sceneObjects: aircraftObjects, type: 'aircraft' });
 	}
 	if (towerObjects.length > 0) {
@@ -112,34 +120,34 @@ function animate() {
 	if (parkingZones.length > 0) {
 		addObjectData({ scene, sceneObjects: runways, type: 'parkingZone' });
 	}
+
 	const deltaTime = clock.getDelta(); // Time since last frame
 
-	if (isAnimating) {
-		if (aircraftObjects.length > 0) {
-			// Update plane animations
-			planeT1 = flyPlane({
-				airCraftObject: aircraftObjects[0],
-				currentT: planeT1,
-				deltaTime,
-				speed: 150,
-				flyPath: flyPath,
-				rotateY: Math.PI,
-			});
-			planeT2 = flyPlane({
-				airCraftObject: aircraftObjects[1],
-				currentT: planeT2,
-				deltaTime,
-				speed: 150,
-				flyPath: flyPath2,
-				rotateY: Math.PI,
-			});
-		}
+	if (isAnimating && aircraftObjects.length > 0) {
+		// Update plane animations
+		planeT1 = flyPlane({
+			airCraftObject: aircraftObjects[0],
+			currentT: planeT1,
+			deltaTime,
+			speed: 150,
+			flyPath: flyPath,
+			rotateZ: Math.PI / 2,
+			rotateX: Math.PI / 2,
+		});
+		planeT2 = flyPlane({
+			airCraftObject: aircraftObjects[1],
+			currentT: planeT2,
+			deltaTime,
+			speed: 150,
+			flyPath: flyPath2,
+			rotateZ: Math.PI / 2,
+			rotateX: Math.PI / 2,
+		});
 	}
 
 	controls.update();
 	renderer.render(scene, camera);
 }
-animate();
 
 // Raycaster setup
 const raycaster = new THREE.Raycaster();
@@ -175,3 +183,6 @@ function onMouseDblClick(event) {
 		showDetails: true,
 	});
 }
+
+// Initialize the scene
+init();

@@ -1,15 +1,16 @@
 import loadGltf from './loadGltf.js';
 
-export default function loadPlanes({
+export default async function loadPlanes({
 	scene,
 	filePath = 'model/AIRPLANE.glb',
 	planeCallback,
 }) {
-	loadGltf({
+	await loadGltf({
 		scene,
 		filePath,
 		callback: (sc) => {
 			const clone = sc.clone();
+			sc.position.y = 15
 			planeCallback(sc);
 			planeCallback(clone);
 		},

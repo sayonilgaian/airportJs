@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const verticalOffset = 6;
+const verticalOffset = 4;
 const zOffset = 30;
 
 const flyPath = [
@@ -8,8 +8,8 @@ const flyPath = [
 	new THREE.Vector3(-40, 3 + verticalOffset, -50 + zOffset), // Take off point
 	new THREE.Vector3(-200, 50, -50 + zOffset), // Mid-air
 	new THREE.Vector3(-200, 50, 180 + zOffset), // Turn left
-	new THREE.Vector3(230, 50, 180 + zOffset), // Turn Left
-	new THREE.Vector3(230, 50, -50 + zOffset), // Turn Left
+	new THREE.Vector3(270, 50, 180 + zOffset), // Turn Left
+	new THREE.Vector3(270, 50, -50 + zOffset), // Turn Left
 	new THREE.Vector3(130, 3 + verticalOffset, -50 + zOffset), // Start point
 ];
 const flyPath2 = [
