@@ -1,35 +1,61 @@
-// Array of possible weather conditions
-const weatherConditions = ['Clear', 'Cloudy', 'Rainy', 'Windy', 'Foggy'];
-
-// Array of possible tower names
-const towerNames = ['North Tower', 'South Tower', 'East Tower', 'West Tower'];
-
-// Array of possible ATC team leads
-const atcLeads = [
-	'John Doe',
-	'Alice Smith',
-	'Bob Johnson',
-	'Emily Davis',
-	'Michael Brown',
+const towerData = [
+	{
+		Tower_Name: 'North Tower',
+		ATC_Team_Lead_Name: 'John Doe',
+		Current_Weather_Conditions: 'Clear',
+		Temperature: '25°C',
+		Number_Of_Flights_Being_Controlled: 75,
+		ATC_Status: 'Active',
+		Last_Update_Time: '1/8/2025, 4:35:23 PM',
+	},
+	{
+		Tower_Name: 'South Tower',
+		ATC_Team_Lead_Name: 'Alice Smith',
+		Current_Weather_Conditions: 'Cloudy',
+		Temperature: '30°C',
+		Number_Of_Flights_Being_Controlled: 45,
+		ATC_Status: 'Inactive',
+		Last_Update_Time: '1/8/2025, 4:35:23 PM',
+	},
+	{
+		Tower_Name: 'East Tower',
+		ATC_Team_Lead_Name: 'Bob Johnson',
+		Current_Weather_Conditions: 'Rainy',
+		Temperature: '20°C',
+		Number_Of_Flights_Being_Controlled: 55,
+		ATC_Status: 'Under Maintenance',
+		Last_Update_Time: '1/8/2025, 4:35:23 PM',
+	},
+	{
+		Tower_Name: 'West Tower',
+		ATC_Team_Lead_Name: 'Emily Davis',
+		Current_Weather_Conditions: 'Windy',
+		Temperature: '35°C',
+		Number_Of_Flights_Being_Controlled: 65,
+		ATC_Status: 'Active',
+		Last_Update_Time: '1/8/2025, 4:35:23 PM',
+	},
+	{
+		Tower_Name: 'North Tower',
+		ATC_Team_Lead_Name: 'Michael Brown',
+		Current_Weather_Conditions: 'Foggy',
+		Temperature: '18°C',
+		Number_Of_Flights_Being_Controlled: 25,
+		ATC_Status: 'Inactive',
+		Last_Update_Time: '1/8/2025, 4:35:23 PM',
+	},
 ];
 
-// Generate basic control tower info
-const towerBasicInfo = {
-	Tower_Name: towerNames[parseInt(Math.random() * towerNames.length)], // Randomly choose a tower name
-	ATC_Team_Lead_Name: atcLeads[parseInt(Math.random() * atcLeads.length)], // Randomly choose ATC team lead
-};
+// Map the tower data into a formatted structure
+const towerFormattedData = towerData.map((data) => {
+	return {
+		basicInfo: {
+			Tower_Name: data.Tower_Name,
+			ATC_Team_Lead_Name: data.ATC_Team_Lead_Name,
+		},
+		detailedInfo: data,
+	};
+});
 
-// Generate detailed control tower info by adding more dynamic values to the basic info
-const towerDetailedInfo = {
-	...towerBasicInfo,
-	Current_Weather_Conditions:
-		weatherConditions[parseInt(Math.random() * weatherConditions.length)], // Randomly choose weather
-	Temperature: `${Math.floor(Math.random() * 40) + 15}°C`, // Random temperature between 15°C and 55°C
-	Number_Of_Flights_Being_Controlled: parseInt(Math.random() * 100), // Random number of flights being controlled
-	ATC_Status: ['Active', 'Inactive', 'Under Maintenance'][
-		parseInt(Math.random() * 3)
-	], // Random ATC status
-	Last_Update_Time: new Date().toLocaleString(), // Time of the last update
-};
+export default towerFormattedData;
 
-export { towerBasicInfo, towerDetailedInfo };

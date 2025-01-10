@@ -11,7 +11,6 @@ import { flyPath, flyPath2 } from './data/flyPaths.js';
 import addAircraft from './utils/addAircraft.js';
 
 let isAnimating = true; // Animation state
-const airCraftNumber = 7;
 let animationSpeed = 150
 
 // Select buttons and add event listeners
@@ -112,7 +111,7 @@ function resetAnimation() {
 function animate() {
 	requestAnimationFrame(animate);
 
-	if (aircraftObjects.length === airCraftNumber) {
+	if (aircraftObjects.length > 0) {
 		addObjectData({ scene, sceneObjects: aircraftObjects, type: 'aircraft' });
 	}
 	if (towerObjects.length > 0) {

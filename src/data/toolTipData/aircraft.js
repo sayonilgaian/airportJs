@@ -1,29 +1,115 @@
-const destinations = ['Sydney', 'LA', 'California', 'Dubai', 'London'];
-const airlines = [
-	'Air India',
-	'Emirates',
-	'Lufthansa',
-	'Qatar Airways',
-	'Singapore Airlines',
+const aircraftData = [
+	{
+		Flight_Number: 'Lufthansa-374',
+		Airline_Name: 'Lufthansa',
+		Gate: 'G4',
+		Destination: 'Sydney',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 421,
+		Status: 'Boarding',
+	},
+	{
+		Flight_Number: 'Singapore Airlines-689',
+		Airline_Name: 'Singapore Airlines',
+		Gate: 'G7',
+		Destination: 'LA',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 318,
+		Status: 'Departed',
+	},
+	{
+		Flight_Number: 'Qatar Airways-824',
+		Airline_Name: 'Qatar Airways',
+		Gate: 'G6',
+		Destination: 'California',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 96,
+		Status: 'Delayed',
+	},
+	{
+		Flight_Number: 'Emirates-56',
+		Airline_Name: 'Emirates',
+		Gate: 'G1',
+		Destination: 'London',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 410,
+		Status: 'Boarding',
+	},
+	{
+		Flight_Number: 'Air India-302',
+		Airline_Name: 'Air India',
+		Gate: 'G9',
+		Destination: 'Dubai',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 377,
+		Status: 'Departed',
+	},
+	{
+		Flight_Number: 'Lufthansa-127',
+		Airline_Name: 'Lufthansa',
+		Gate: 'G2',
+		Destination: 'Sydney',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 178,
+		Status: 'Delayed',
+	},
+	{
+		Flight_Number: 'Singapore Airlines-403',
+		Airline_Name: 'Singapore Airlines',
+		Gate: 'G3',
+		Destination: 'California',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 202,
+		Status: 'Boarding',
+	},
+	{
+		Flight_Number: 'Emirates-752',
+		Airline_Name: 'Emirates',
+		Gate: 'G8',
+		Destination: 'LA',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 95,
+		Status: 'Departed',
+	},
+	{
+		Flight_Number: 'Air India-145',
+		Airline_Name: 'Air India',
+		Gate: 'G0',
+		Destination: 'London',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 50,
+		Status: 'Delayed',
+	},
+	{
+		Flight_Number: 'Qatar Airways-323',
+		Airline_Name: 'Qatar Airways',
+		Gate: 'G5',
+		Destination: 'Dubai',
+		Scheduled_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Actual_Time: 'Wed Jan 08 2025 15:35:23 GMT+0000 (UTC)',
+		Passenger_Count: 445,
+		Status: 'Boarding',
+	},
 ];
 
-let randomAirline = airlines[parseInt(Math.random() * (airlines.length - 1))];
+const airCraftFormattedData = aircraftData.map((data) => {
+	return {
+		basicInfo: {
+			Flight_Number: data.Flight_Number,
+			Airline_Name: data.Airline_Name,
+			Gate: data.Gate,
+		},
+		detailedInfo: data,
+	};
+});
 
-const aircraftBasicInfo = {
-	Flight_Number: `${randomAirline}-${parseInt(Math.random() * 1000)}`,
-	Airline_Name: randomAirline,
-	Gate: `G${parseInt(Math.random() * 10)}`,
-};
-
-let randomTime = new Date(Date.now()).toString();
-
-const aircraftDetailedInfo = {
-	...aircraftBasicInfo,
-	Destination: destinations[parseInt(Math.random() * destinations.length - 1)],
-	Scheduled_Time: randomTime,
-	Actual_Time: randomTime,
-	Passenger_Count: parseInt(Math.random() * 500),
-	Status: ['Boarding', 'Departed', 'Delayed'][parseInt(Math.random() * 3)],
-};
-
-export { aircraftBasicInfo, aircraftDetailedInfo };
+export default airCraftFormattedData;
