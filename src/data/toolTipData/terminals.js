@@ -26,14 +26,14 @@ const passengerCapacity = getRandomInteger(5000, 20000); // Random passenger cap
 const amenities = generateAmenities();
 
 const terminalBasicInfo = {
-	TerminalName: terminalName,
-	NumberOfGates: `${numberOfGates} Gates`,
+	Terminal_Name: terminalName,
+	Number_Of_Gates: `${numberOfGates} Gates`,
 };
 
 const terminalDetailedInfo = {
 	...terminalBasicInfo,
-	TotalFlightsToday: totalFlightsToday,
-	PassengerCapacity: passengerCapacity,
+	Total_Flights_Today: totalFlightsToday,
+	Passenger_Capacity: passengerCapacity,
 	Amenities: amenities,
 };
 

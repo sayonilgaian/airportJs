@@ -15,21 +15,21 @@ const atcLeads = [
 
 // Generate basic control tower info
 const towerBasicInfo = {
-	TowerName: towerNames[parseInt(Math.random() * towerNames.length)], // Randomly choose a tower name
-	ATCTeamLeadName: atcLeads[parseInt(Math.random() * atcLeads.length)], // Randomly choose ATC team lead
+	Tower_Name: towerNames[parseInt(Math.random() * towerNames.length)], // Randomly choose a tower name
+	ATC_Team_Lead_Name: atcLeads[parseInt(Math.random() * atcLeads.length)], // Randomly choose ATC team lead
 };
 
 // Generate detailed control tower info by adding more dynamic values to the basic info
 const towerDetailedInfo = {
 	...towerBasicInfo,
-	CurrentWeatherConditions:
+	Current_Weather_Conditions:
 		weatherConditions[parseInt(Math.random() * weatherConditions.length)], // Randomly choose weather
 	Temperature: `${Math.floor(Math.random() * 40) + 15}°C`, // Random temperature between 15°C and 55°C
-	NumberOfFlightsBeingControlled: parseInt(Math.random() * 100), // Random number of flights being controlled
-	ATCStatus: ['Active', 'Inactive', 'Under Maintenance'][
+	Number_Of_Flights_Being_Controlled: parseInt(Math.random() * 100), // Random number of flights being controlled
+	ATC_Status: ['Active', 'Inactive', 'Under Maintenance'][
 		parseInt(Math.random() * 3)
 	], // Random ATC status
-	LastUpdateTime: new Date().toLocaleString(), // Time of the last update
+	Last_Update_Time: new Date().toLocaleString(), // Time of the last update
 };
 
 export { towerBasicInfo, towerDetailedInfo };

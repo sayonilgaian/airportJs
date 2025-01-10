@@ -16,8 +16,8 @@ const destinations = [
 const flightStatus = ['Active', 'Delayed', 'Boarding', 'Departed'];
 
 const gatesBasicInfo = {
-	GateNumber: `Gate ${parseInt(Math.random() * 30) + 1}`, // Random gate number between 1 and 30
-	AssignedFlight: `AI${parseInt(Math.random() * 900) + 100}`, // Random flight number from AI100 to AI999
+	Gate_Number: `Gate ${parseInt(Math.random() * 30) + 1}`, // Random gate number between 1 and 30
+	Assigned_Flight: `AI${parseInt(Math.random() * 900) + 100}`, // Random flight number from AI100 to AI999
 	Airline: airlines[parseInt(Math.random() * airlines.length)], // Random airline
 };
 
@@ -25,8 +25,8 @@ const gatesBasicInfo = {
 const gatesDetailedInfo = {
 	...gatesBasicInfo,
 	Destination: destinations[parseInt(Math.random() * destinations.length)], // Random destination
-	BoardingStatus: flightStatus[parseInt(Math.random() * flightStatus.length)], // Random boarding status
-	NextFlightTiming: `${parseInt(Math.random() * 12) + 5}:${parseInt(
+	Boarding_Status: flightStatus[parseInt(Math.random() * flightStatus.length)], // Random boarding status
+	Next_Flight_Timing: `${parseInt(Math.random() * 12) + 5}:${parseInt(
 		Math.random() * 60
 	)}0`, // Random next flight time (5 to 17 hours)
 };
@@ -36,7 +36,5 @@ const gateData = {
 	gatesBasicInfo,
 	gatesDetailedInfo,
 };
-
-console.log(gateData);
 
 export { gatesBasicInfo, gatesDetailedInfo };

@@ -4,7 +4,7 @@ const statuses = ['Active', 'Inactive'];
 
 // Generate basic information
 const basicRunwayInfo = {
-	RunwayNumber: `Runway ${String(parseInt(Math.random() * 30)).padStart(
+	Runway_Number: `Runway ${String(parseInt(Math.random() * 30)).padStart(
 		2,
 		'0'
 	)}${['L', 'R'][parseInt(Math.random() * 2)]}`, // e.g., Runway 09R
@@ -15,8 +15,8 @@ const basicRunwayInfo = {
 const detailedRunwayInfo = {
 	...basicRunwayInfo,
 	Length: parseInt(Math.random() * (4000 - 2000) + 2000), // Random length between 2000 and 4000 meters
-	CurrentOperation: operations[parseInt(Math.random() * operations.length)], // Random operation type
-	FlightsScheduledInNextHour: parseInt(Math.random() * 10) + 1, // Random number of flights scheduled between 1 and 10
+	Current_Operation: operations[parseInt(Math.random() * operations.length)], // Random operation type
+	Flights_Scheduled_In_Next_Hour: parseInt(Math.random() * 10) + 1, // Random number of flights scheduled between 1 and 10
 };
 
 export { basicRunwayInfo, detailedRunwayInfo };

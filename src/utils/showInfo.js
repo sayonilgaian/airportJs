@@ -25,6 +25,31 @@ function showInfo(object, camera, showDetails = false) {
 		activeTooltip.destroy();
 		activeTooltip = null;
 	}
+
+	// Create separate tooltips for basic data and detailed data
+	let basicDataString = '';
+	let detailedDataString = '';
+	if (object?.parent?.userData?.basicData) {
+		basicDataString = Object.keys(object?.parent?.userData?.basicData)
+			.map(
+				(key) =>
+					`${key.split('_').join(' ')}: ${
+						object?.parent?.userData?.basicData[key]
+					}`
+			)
+			.join('<br/>');
+	}
+	if (object?.parent?.userData?.detailedData) {
+		detailedDataString = Object.keys(object?.parent?.userData?.detailedData)
+			.map(
+				(key) =>
+					`${key.split('_').join(' ')}: ${
+						object?.parent?.userData?.detailedData[key]
+					}`
+			)
+			.join('<br/>');
+	}
+
 	// Create tooltip content
 	const tooltipContent = `
 	<style>
@@ -61,26 +86,7 @@ function showInfo(object, camera, showDetails = false) {
 	<div class="tooltip">
 		<div>
 			<strong>Info:</strong><br/>
-			${
-				object?.parent?.userData?.basicData
-					? `Flight number: <strong>${
-							object?.parent?.userData?.detailedData?.FlightNumber
-					  }</strong> <br/>
-					Airline Name: ${object?.parent?.userData?.detailedData?.AirlineName} <br/>
-					Gate: ${object?.parent?.userData?.detailedData?.Gate}
-					${
-						showDetails &&
-						`
-					Destination:${object?.parent?.userData?.detailedData?.Destination} <br/>
-					Scheduled Time:${object?.parent?.userData?.detailedData?.ScheduledTime} <br/>
-					Actual Time:${object?.parent?.userData?.detailedData?.ActualTime} <br/>
-					Passenger Count:${object?.parent?.userData?.detailedData?.PassengerCount} <br/>
-					Status:${object?.parent?.userData?.detailedData?.Status} <br/>
-					`
-					}
-					`
-					: 'No description available'
-			}
+			${showDetails ? detailedDataString : basicDataString}
 		</div>
 	</div>
 `;
@@ -107,6 +113,7 @@ function showInfo(object, camera, showDetails = false) {
 		allowHTML: true, // Allow HTML content to be rendered
 	});
 
+	// show tooltip only when baisc and detailed data are available
 	object?.parent?.userData?.basicData && activeTooltip.show();
 }
 

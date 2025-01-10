@@ -24,22 +24,36 @@ let { scene, camera, renderer, controls, floor } = createScene();
 
 let aircraftObjects = [];
 let towerObjects = [];
+let terminals = [];
+let runways = [];
+let gates = [];
+let parkingZones = [];
 
 loadGltf({
 	scene,
 	filePath: 'model/airport.glb',
 	callback: (scene) => {
-		// add static planes which are part of gltf file too
+		// add static scene objects which are part of gltf file
 		scene?.traverse((sceneObject) => {
 			if (sceneObject?.name?.includes('Airplane')) {
 				aircraftObjects.push(sceneObject);
 			}
-		});
-		// add static planes which are part of gltf file too
-		scene?.traverse((sceneObject) => {
 			if (sceneObject?.name?.includes('Tower')) {
 				towerObjects.push(sceneObject);
 			}
+			if (sceneObject?.name?.includes('Airport-Building')) {
+				terminals.push(sceneObject);
+			}
+			if (sceneObject?.name?.includes('airport-ground')) {
+				runways.push(sceneObject);
+			}
+			// TODO: when these objects are added in gltf, uncomment this
+			// if (sceneObject?.name?.includes('parking')) {
+			// 	gates.push(sceneObject);
+			// }
+			// if (sceneObject?.name?.includes('gates')) {
+			// 	parkingZones.push(sceneObject);
+			// }
 		});
 	},
 	loading: (loadStatus) => {
@@ -63,7 +77,19 @@ function animate() {
 		addObjectData({ scene, sceneObjects: aircraftObjects, type: 'aircraft' });
 	}
 	if (towerObjects.length > 0) {
-		// addObjectData({ scene, sceneObjects: towerObjects, type: 'tower' });
+		addObjectData({ scene, sceneObjects: towerObjects, type: 'tower' });
+	}
+	if (terminals.length > 0) {
+		addObjectData({ scene, sceneObjects: terminals, type: 'terminal' });
+	}
+	if (runways.length > 0) {
+		addObjectData({ scene, sceneObjects: runways, type: 'runway' });
+	}
+	if (gates.length > 0) {
+		addObjectData({ scene, sceneObjects: gates, type: 'gates' });
+	}
+	if (parkingZones.length > 0) {
+		addObjectData({ scene, sceneObjects: runways, type: 'parkingZone' });
 	}
 	const deltaTime = clock.getDelta(); // Time since last frame
 

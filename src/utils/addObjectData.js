@@ -33,6 +33,22 @@ export default function addObjectData({ scene, sceneObjects = [], type }) {
 			basicInfo: towerBasicInfo,
 			detailedInfo: towerDetailedInfo,
 		},
+		terminal: {
+			basicInfo: terminalBasicInfo,
+			detailedInfo: terminalDetailedInfo,
+		},
+		runway: {
+			basicInfo: basicRunwayInfo,
+			detailedInfo: detailedRunwayInfo,
+		},
+		parkingZone: {
+			basicInfo: parkingBasicInfo,
+			detailedInfo: parkingDetailedInfo,
+		},
+		gates: {
+			basicInfo: gatesBasicInfo,
+			detailedInfo: gatesDetailedInfo,
+		},
 	};
 
 	if (!scene) {

@@ -9,16 +9,16 @@ const airlines = [
 
 // Basic Info: Zone Name and Occupancy Status
 const parkingBasicInfo = {
-	ZoneName: zoneNames[parseInt(Math.random() * zoneNames.length)],
-	OccupancyStatus: `${parseInt(Math.random() * 100)}% Full`,
+	Zone_Name: zoneNames[parseInt(Math.random() * zoneNames.length)],
+	Occupancy_Status: `${parseInt(Math.random() * 100)}% Full`,
 };
 
 // Detailed Info: Zone Name, Occupancy Percentage, Number of Airplanes Parked, and Airline Breakdown
 const parkingDetailedInfo = {
 	...parkingBasicInfo,
-	OccupancyPercentage: parseInt(Math.random() * 100), // Random occupancy percentage
-	NumberOfAirplanesParked: parseInt(Math.random() * 30), // Random number of airplanes parked
-	AirlineBreakdown: airlines.reduce((breakdown, airline) => {
+	Occupancy_Percentage: parseInt(Math.random() * 100), // Random occupancy percentage
+	Number_Of_Airplanes_Parked: parseInt(Math.random() * 30), // Random number of airplanes parked
+	Airline_Breakdown: airlines.reduce((breakdown, airline) => {
 		breakdown[airline] = parseInt(Math.random() * 10); // Random number of airplanes for each airline
 		return breakdown;
 	}, {}),
