@@ -14,10 +14,31 @@ let isAnimating = true; // Animation state
 const airCraftNumber = 7;
 
 // Select the button and add event listener
-const button = document.getElementById('toggle-button');
-button.addEventListener('click', () => {
+const pauseButton = document.getElementById('toggle-button');
+const resetButton = document.getElementById('reset-button');
+pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
-	button.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
+	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
+});
+resetButton.addEventListener('click', () => {
+	// Reset animation variables
+	planeT1 = 0;
+	planeT2 = 0;
+
+	// Reset positions of aircraft to the start of their respective flyPaths
+	if (aircraftObjects.length > 0) {
+		const startPosition1 = flyPath[0]; // Starting point of flyPath
+		const startPosition2 = flyPath2[0]; // Starting point of flyPath2
+
+		aircraftObjects[0].position.copy(startPosition1);
+		aircraftObjects[0].rotation.set(0, Math.PI, 0); // Reset orientation if needed
+
+		aircraftObjects[1].position.copy(startPosition2);
+		aircraftObjects[1].rotation.set(0, Math.PI, 0); // Reset orientation if needed
+	}
+
+	// Re-render the scene to reflect reset state
+	renderer.render(scene, camera);
 });
 
 let { scene, camera, renderer, controls, floor } = createScene();
@@ -108,7 +129,7 @@ function animate() {
 				airCraftObject: aircraftObjects[1],
 				currentT: planeT2,
 				deltaTime,
-				speed: 200,
+				speed: 150,
 				flyPath: flyPath2,
 				rotateY: Math.PI,
 			});
