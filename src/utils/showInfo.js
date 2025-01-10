@@ -20,6 +20,14 @@ function toScreenPosition(obj, camera) {
 let activeTooltip = null;
 
 function showInfo(object, camera, showDetails = false) {
+	// Edge case: to handle multiple airport-ground assets, out of which only one is runway
+	if (
+		object?.parent?.name === 'airport-ground' &&
+		object?.name !== 'Plane018_1'
+	) {
+		return;
+	}
+
 	// Clear any existing tooltip
 	if (activeTooltip) {
 		activeTooltip.destroy();

@@ -60,6 +60,8 @@ async function init() {
 						terminals.push(sceneObject);
 					}
 					if (sceneObject?.name?.includes('airport-ground')) {
+						// To select correct object for runway
+						// runways.push(sceneObject?.children?.filter((childObject)=> childObject?.name === 'Plane018_1')[0]);
 						runways.push(sceneObject);
 					}
 				});
