@@ -23,41 +23,31 @@ export default function addObjectData({ scene, sceneObjects = [], type }) {
 	addSceneObjectsData({
 		sceneObjects,
 		formattedData: objectDataInsertion[type],
-		objectDataInsertion,
-		type,
 	});
 }
 
-function addSceneObjectsData({
-	sceneObjects = [],
-	formattedData,
-	objectDataInsertion,
-	type,
-}) {
+function addSceneObjectsData({ sceneObjects = [], formattedData }) {
 	// Function to recursively add data to an object and its children
-	function addDataRecursively(sceneObject, index) {
+	function addDataRecursively(sceneObject, data) {
 		// Add user data to the object itself
-		if (!index) {
-			return;
-		}
-		sceneObject.userData.basicData = formattedData[index].basicInfo;
-		sceneObject.userData.detailedData = formattedData[index].detailedInfo;
+		sceneObject.userData.basicData = data.basicInfo;
+		sceneObject.userData.detailedData = data.detailedInfo;
 
 		// Recursively process each child
 		if (sceneObject.children && sceneObject.children.length > 0) {
 			sceneObject.children.forEach((child) => {
-				addDataRecursively(child);
+				addDataRecursively(child, data);
 			});
 		}
 	}
 
 	for (
 		let i = 0;
-		i < Math.max(sceneObjects.length, objectDataInsertion[type].length);
+		i < Math.min(sceneObjects.length, formattedData.length);
 		i++
 	) {
-		if (!sceneObjects[i]?.userData?.basicData && i) {
-			addDataRecursively(sceneObjects[i], i);
+		if (!sceneObjects[i]?.userData?.basicData) {
+			addDataRecursively(sceneObjects[i], formattedData[i]);
 		}
 	}
 }

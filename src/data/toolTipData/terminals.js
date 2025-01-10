@@ -34,6 +34,27 @@ const terminalData = [
 		Passenger_Capacity: 20000,
 		Amenities: '5 Lounges, 20 Food Outlets, 30 Shops',
 	},
+	{
+		Terminal_Name: 'Terminal 6',
+		Number_Of_Gates: '40 Gates',
+		Total_Flights_Today: 150,
+		Passenger_Capacity: 18000,
+		Amenities: '4 Lounges, 18 Food Outlets, 25 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 7',
+		Number_Of_Gates: '50 Gates',
+		Total_Flights_Today: 200,
+		Passenger_Capacity: 20000,
+		Amenities: '5 Lounges, 20 Food Outlets, 30 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 8',
+		Number_Of_Gates: '50 Gates',
+		Total_Flights_Today: 200,
+		Passenger_Capacity: 20000,
+		Amenities: '5 Lounges, 20 Food Outlets, 30 Shops',
+	},
 ];
 
 const formattedTerminalData = terminalData.map((data) => {
