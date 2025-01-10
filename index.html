@@ -10,6 +10,8 @@
 			body {
 				margin: 0;
 				overflow: hidden;
+				font-family: Arial, sans-serif;
+				user-select: none;
 			}
 			canvas {
 				display: block;
@@ -19,6 +21,10 @@
 				padding: 10px;
 				font-size: 14px;
 				cursor: pointer;
+			}
+			#animation-speed-controller {
+				margin-top: 10px;
+				color: white;
 			}
 		</style>
 		<script type="importmap">
@@ -40,6 +46,18 @@
 			<div style="position: absolute; top: 10px; left: 10px; z-index: 10">
 				<button id="toggle-button">Pause Animation</button>
 				<button id="reset-button">Reset Animation</button>
+				<div id="animation-speed-controller">
+					Animation speed: <br />
+					<span>
+						50
+						<input
+							id="speed-button"
+							type="range"
+							max="300"
+							min="50" />
+						300
+					</span>
+				</div>
 			</div>
 		</div>
 		<script

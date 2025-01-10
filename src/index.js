@@ -12,15 +12,20 @@ import addAircraft from './utils/addAircraft.js';
 
 let isAnimating = true; // Animation state
 const airCraftNumber = 7;
+let animationSpeed = 150
 
 // Select buttons and add event listeners
 const pauseButton = document.getElementById('toggle-button');
 const resetButton = document.getElementById('reset-button');
+const speedButton = document.getElementById('speed-button');
 pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
 resetButton.addEventListener('click', () => resetAnimation());
+speedButton.addEventListener('change', () => {
+	animationSpeed = speedButton.value
+});
 
 let { scene, camera, renderer, controls, floor } = createScene();
 
@@ -129,7 +134,7 @@ function animate() {
 			airCraftObject: aircraftObjects[0],
 			currentT: planeT1,
 			deltaTime,
-			speed: 150,
+			speed: animationSpeed,
 			flyPath: flyPath,
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
@@ -138,7 +143,7 @@ function animate() {
 			airCraftObject: aircraftObjects[1],
 			currentT: planeT2,
 			deltaTime,
-			speed: 150,
+			speed: animationSpeed,
 			flyPath: flyPath2,
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
