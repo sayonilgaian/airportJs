@@ -85,6 +85,9 @@ async function init() {
 animate();
 
 function resetAnimation() {
+	if (!isAnimating) {
+		return
+	}
 	planeT1 = 0;
 	planeT2 = 0;
 
