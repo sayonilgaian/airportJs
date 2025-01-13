@@ -1,40 +1,70 @@
-const terminalNames = [
-	'Terminal 1',
-	'Terminal 2',
-	'Terminal 3',
-	'Terminal 4',
-	'Terminal 5',
+const terminalData = [
+	{
+		Terminal_Name: 'Terminal 1',
+		Number_Of_Gates: '25 Gates',
+		Total_Flights_Today: 120,
+		Passenger_Capacity: 15000,
+		Amenities: '3 Lounges, 12 Food Outlets, 20 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 2',
+		Number_Of_Gates: '30 Gates',
+		Total_Flights_Today: 95,
+		Passenger_Capacity: 12000,
+		Amenities: '2 Lounges, 8 Food Outlets, 15 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 3',
+		Number_Of_Gates: '15 Gates',
+		Total_Flights_Today: 75,
+		Passenger_Capacity: 8000,
+		Amenities: '1 Lounge, 5 Food Outlets, 10 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 4',
+		Number_Of_Gates: '40 Gates',
+		Total_Flights_Today: 150,
+		Passenger_Capacity: 18000,
+		Amenities: '4 Lounges, 18 Food Outlets, 25 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 5',
+		Number_Of_Gates: '50 Gates',
+		Total_Flights_Today: 200,
+		Passenger_Capacity: 20000,
+		Amenities: '5 Lounges, 20 Food Outlets, 30 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 6',
+		Number_Of_Gates: '40 Gates',
+		Total_Flights_Today: 150,
+		Passenger_Capacity: 18000,
+		Amenities: '4 Lounges, 18 Food Outlets, 25 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 7',
+		Number_Of_Gates: '50 Gates',
+		Total_Flights_Today: 200,
+		Passenger_Capacity: 20000,
+		Amenities: '5 Lounges, 20 Food Outlets, 30 Shops',
+	},
+	{
+		Terminal_Name: 'Terminal 8',
+		Number_Of_Gates: '50 Gates',
+		Total_Flights_Today: 200,
+		Passenger_Capacity: 20000,
+		Amenities: '5 Lounges, 20 Food Outlets, 30 Shops',
+	},
 ];
 
-const getRandomInteger = (min, max) =>
-	Math.floor(Math.random() * (max - min + 1)) + min;
+const formattedTerminalData = terminalData.map((data) => {
+	return {
+		basicInfo: {
+			Terminal_Name: data.Terminal_Name,
+			Number_Of_Gates: data.Number_Of_Gates,
+		},
+		detailedInfo: data,
+	};
+});
 
-const generateAmenities = () => {
-	const lounges = getRandomInteger(1, 5); // Random number of lounges (1-5)
-	const foodOutlets = getRandomInteger(5, 20); // Random number of food outlets (5-20)
-	const shops = getRandomInteger(10, 30); // Random number of shops (10-30)
-
-	return `${lounges} Lounges, ${foodOutlets} Food Outlets, ${shops} Shops`;
-};
-
-const terminalName =
-	terminalNames[getRandomInteger(0, terminalNames.length - 1)];
-const numberOfGates = getRandomInteger(10, 50); // Random number of gates (10-50)
-const totalFlightsToday = getRandomInteger(50, 200); // Random total flights today (50-200)
-const passengerCapacity = getRandomInteger(5000, 20000); // Random passenger capacity (5000-20000)
-
-const amenities = generateAmenities();
-
-const terminalBasicInfo = {
-	Terminal_Name: terminalName,
-	Number_Of_Gates: `${numberOfGates} Gates`,
-};
-
-const terminalDetailedInfo = {
-	...terminalBasicInfo,
-	Total_Flights_Today: totalFlightsToday,
-	Passenger_Capacity: passengerCapacity,
-	Amenities: amenities,
-};
-
-export { terminalBasicInfo, terminalDetailedInfo };
+export default formattedTerminalData;

@@ -1,54 +1,18 @@
-import {
-	aircraftBasicInfo,
-	aircraftDetailedInfo,
-} from '../data/toolTipData/aircraft.js';
-import {
-	towerBasicInfo,
-	towerDetailedInfo,
-} from '../data/toolTipData/controlTowers.js';
-import {
-	gatesBasicInfo,
-	gatesDetailedInfo,
-} from '../data/toolTipData/gates.js';
-import {
-	parkingBasicInfo,
-	parkingDetailedInfo,
-} from '../data/toolTipData/parking.js';
-import {
-	basicRunwayInfo,
-	detailedRunwayInfo,
-} from '../data/toolTipData/runways.js';
-import {
-	terminalBasicInfo,
-	terminalDetailedInfo,
-} from '../data/toolTipData/terminals.js';
+import airCraftFormattedData from '../data/toolTipData/aircraft.js';
+import towerFormattedData from '../data/toolTipData/controlTowers.js';
+import gatesFormattedData from '../data/toolTipData/gates.js';
+import parkingFormattedData from '../data/toolTipData/parking.js';
+import formattedRunwayData from '../data/toolTipData/runways.js';
+import formattedTerminalData from '../data/toolTipData/terminals.js';
 
 export default function addObjectData({ scene, sceneObjects = [], type }) {
 	const objectDataInsertion = {
-		aircraft: {
-			basicInfo: aircraftBasicInfo,
-			detailedInfo: aircraftDetailedInfo,
-		},
-		tower: {
-			basicInfo: towerBasicInfo,
-			detailedInfo: towerDetailedInfo,
-		},
-		terminal: {
-			basicInfo: terminalBasicInfo,
-			detailedInfo: terminalDetailedInfo,
-		},
-		runway: {
-			basicInfo: basicRunwayInfo,
-			detailedInfo: detailedRunwayInfo,
-		},
-		parkingZone: {
-			basicInfo: parkingBasicInfo,
-			detailedInfo: parkingDetailedInfo,
-		},
-		gates: {
-			basicInfo: gatesBasicInfo,
-			detailedInfo: gatesDetailedInfo,
-		},
+		aircraft: airCraftFormattedData,
+		tower: towerFormattedData,
+		terminal: formattedTerminalData,
+		runway: formattedRunwayData,
+		parkingZone: parkingFormattedData,
+		gates: gatesFormattedData,
 	};
 
 	if (!scene) {
@@ -58,29 +22,32 @@ export default function addObjectData({ scene, sceneObjects = [], type }) {
 
 	addSceneObjectsData({
 		sceneObjects,
-		basicInfo: objectDataInsertion[type].basicInfo,
-		detailedInfo: objectDataInsertion[type].detailedInfo,
+		formattedData: objectDataInsertion[type],
 	});
 }
 
-function addSceneObjectsData({ sceneObjects = [], basicInfo, detailedInfo }) {
+function addSceneObjectsData({ sceneObjects = [], formattedData }) {
 	// Function to recursively add data to an object and its children
-	function addDataRecursively(sceneObject) {
+	function addDataRecursively(sceneObject, data) {
 		// Add user data to the object itself
-		sceneObject.userData.basicData = basicInfo;
-		sceneObject.userData.detailedData = detailedInfo;
+		sceneObject.userData.basicData = data.basicInfo;
+		sceneObject.userData.detailedData = data.detailedInfo;
 
 		// Recursively process each child
 		if (sceneObject.children && sceneObject.children.length > 0) {
 			sceneObject.children.forEach((child) => {
-				addDataRecursively(child);
+				addDataRecursively(child, data);
 			});
 		}
 	}
 
-	for (let i = 0; i < sceneObjects.length; i++) {
-		if (!sceneObjects[i].userData.basicData) {
-			addDataRecursively(sceneObjects[i]);
+	for (
+		let i = 0;
+		i < Math.min(sceneObjects.length, formattedData.length);
+		i++
+	) {
+		if (!sceneObjects[i]?.userData?.basicData) {
+			addDataRecursively(sceneObjects[i], formattedData[i]);
 		}
 	}
 }
