@@ -11,20 +11,28 @@ import { flyPath, flyPath2 } from './data/flyPaths.js';
 import addAircraft from './utils/addAircraft.js';
 
 let isAnimating = true; // Animation state
-let animationSpeed = 150
+let animationSpeed = 150;
+let showFlightPath = true;
 
 // Select buttons and add event listeners
 const pauseButton = document.getElementById('toggle-button');
 const resetButton = document.getElementById('reset-button');
 const speedButton = document.getElementById('speed-button');
+const flightPathBtn = document.getElementById('toggle-flight-path');
 pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
 resetButton.addEventListener('click', () => resetAnimation());
 speedButton.addEventListener('change', () => {
-	animationSpeed = speedButton.value
+	animationSpeed = speedButton.value;
 });
+// flightPathBtn.addEventListener('click', () => {
+// 	showFlightPath = !showFlightPath;
+// 	flightPathBtn.textContent = `${
+// 		showFlightPath ? 'Hide' : ' Show'
+// 	} flight path`;
+// });
 
 let { scene, camera, renderer, controls, floor } = createScene();
 
@@ -39,6 +47,7 @@ let parkingZones = [];
 let planeT1 = 0;
 let planeT2 = 0;
 const clock = new THREE.Clock();
+let flightPathLines = [];
 
 async function init() {
 	try {
@@ -87,7 +96,7 @@ animate();
 
 function resetAnimation() {
 	if (!isAnimating) {
-		return
+		return;
 	}
 	planeT1 = 0;
 	planeT2 = 0;
@@ -135,6 +144,7 @@ function animate() {
 	if (isAnimating && aircraftObjects.length > 0) {
 		// Update plane animations
 		planeT1 = flyPlane({
+			scene,
 			airCraftObject: aircraftObjects[0],
 			currentT: planeT1,
 			deltaTime,
@@ -142,8 +152,11 @@ function animate() {
 			flyPath: flyPath,
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
+			showFlightPath,
+			flightPathLines
 		});
 		planeT2 = flyPlane({
+			scene,
 			airCraftObject: aircraftObjects[1],
 			currentT: planeT2,
 			deltaTime,
@@ -151,6 +164,8 @@ function animate() {
 			flyPath: flyPath2,
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
+			showFlightPath,
+			flightPathLines
 		});
 	}
 
