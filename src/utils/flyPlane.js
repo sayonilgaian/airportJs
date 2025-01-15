@@ -1,6 +1,8 @@
 import * as THREE from 'three';
+import drawFlyPath from './drawFlyPath.js';
 
 export default function flyPlane({
+	scene,
 	airCraftObject,
 	speed = 100, // Units per second
 	flyPath,
@@ -9,6 +11,8 @@ export default function flyPlane({
 	rotateX = 0,
 	rotateY = 0,
 	rotateZ = 0,
+	showFlightPath,
+	flightPathLines
 }) {
 	if (!airCraftObject) {
 		console.error('airCraftObject is undefined.');
@@ -46,5 +50,8 @@ export default function flyPlane({
 	airCraftObject.rotateY(rotateY);
 	airCraftObject.rotateZ(rotateZ);
 
-	return currentT; // Return the updated value of 't'
+	// TODO: removing flight path pending
+	drawFlyPath({ scene, flyPath, showFlightPath, flightPathLines });
+
+	return currentT;
 }

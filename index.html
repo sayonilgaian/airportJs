@@ -16,8 +16,7 @@
 			canvas {
 				display: block;
 			}
-			#toggle-button,
-			#reset-button {
+			.canvas-btn {
 				padding: 10px;
 				font-size: 14px;
 				cursor: pointer;
@@ -44,8 +43,16 @@
 			id="three-container"
 			style="position: relative">
 			<div style="position: absolute; top: 10px; left: 10px; z-index: 10">
-				<button id="toggle-button">Pause Animation</button>
-				<button id="reset-button">Reset Animation</button>
+				<button
+					id="toggle-button"
+					class="canvas-btn">
+					Pause Animation
+				</button>
+				<button
+					id="reset-button"
+					class="canvas-btn">
+					Reset Animation
+				</button>
 				<div id="animation-speed-controller">
 					Animation speed: <br />
 					<span>
@@ -58,6 +65,11 @@
 						300
 					</span>
 				</div>
+				<!-- <button
+					id="toggle-flight-path"
+					class="canvas-btn">
+					Show Flight Path
+				</button> -->
 			</div>
 		</div>
 		<script
