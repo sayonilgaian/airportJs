@@ -57,7 +57,7 @@ export default function createScene() {
 	controls.maxDistance = 500; // Maximum zoom-out distance
 	controls.minDistance = 50; // Optional: Minimum zoom-in distance
 	// Prevent camera from rotating below the horizontal plane (positive Y)
-	controls.maxPolarAngle = Math.PI / 2; // 90 degrees (horizontal plane)
+	controls.maxPolarAngle = (85 * Math.PI) / 180; // 85 degrees
 	controls.update();
 
 	return { scene, camera, renderer, controls, floor };

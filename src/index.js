@@ -8,7 +8,6 @@ import updateToolTip from './utils/updateToolTip.js';
 import { debounce } from './helpers/index.js';
 import flyPlane from './utils/flyPlane.js';
 import { flyPath, flyPath2 } from './data/flyPaths.js';
-import addAircraft from './utils/addAircraft.js';
 
 let isAnimating = true; // Animation state
 let animationSpeed = 150;
@@ -112,9 +111,7 @@ async function init() {
 		// Load plane models
 		setTimeout(async () => {
 			await loadPlanes({
-				scene,
-				planeCallback: (aircraftObject) =>
-					addAircraft({ scene, aircraftObject, aircraftObjects }),
+				scene
 			});
 			console.log('Plane models loaded');
 		}, 1500);

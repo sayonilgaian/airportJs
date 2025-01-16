@@ -10,7 +10,6 @@ export default async function loadPlanes({
 		filePath,
 		callback: (sc) => {
 			const clone = sc.clone();
-			sc.position.y = 15
 			planeCallback(sc);
 			planeCallback(clone);
 		},
