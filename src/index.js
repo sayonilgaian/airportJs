@@ -8,10 +8,11 @@ import updateToolTip from './utils/updateToolTip.js';
 import { debounce } from './helpers/index.js';
 import flyPlane from './utils/flyPlane.js';
 import { flyPath, flyPath2 } from './data/flyPaths.js';
+import addLoader from './utils/addLoader.js';
 
 let isAnimating = true; // Animation state
 let animationSpeed = 150;
-let showFlightPath = true;
+let showFlightPath = false;
 
 // Select buttons and add event listeners
 const pauseButton = document.getElementById('toggle-button');
@@ -26,12 +27,12 @@ resetButton.addEventListener('click', () => resetAnimation());
 speedButton.addEventListener('change', () => {
 	animationSpeed = speedButton.value;
 });
-// flightPathBtn.addEventListener('click', () => {
-// 	showFlightPath = !showFlightPath;
-// 	flightPathBtn.textContent = `${
-// 		showFlightPath ? 'Hide' : ' Show'
-// 	} flight path`;
-// });
+flightPathBtn.addEventListener('click', () => {
+	showFlightPath = !showFlightPath;
+	flightPathBtn.textContent = `${
+		showFlightPath ? 'Hide' : ' Show'
+	} Flight Path`;
+});
 
 let { scene, camera, renderer, controls, floor } = createScene();
 
@@ -50,23 +51,7 @@ let flightPathLines = [];
 
 async function init() {
 	// Create a loading text element
-	const loadingElement = document.createElement('div');
-	loadingElement.id = 'loading-text';
-	loadingElement.style.position = 'absolute';
-	loadingElement.style.top = '50%';
-	loadingElement.style.left = '50%';
-	loadingElement.style.transform = 'translate(-50%, -50%)';
-	loadingElement.style.color = '#ffffff';
-	loadingElement.style.fontSize = '20px';
-	loadingElement.style.fontFamily = 'Arial, sans-serif';
-	loadingElement.style.textAlign = 'center';
-	loadingElement.style.padding = '20px 40px';
-	loadingElement.style.border = '2px solid #ffffff'; // White border
-	// loadingElement.style.borderRadius = '10px'; // Rounded corners
-	loadingElement.style.background = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black background
-	loadingElement.style.zIndex = '100';
-	loadingElement.textContent = 'Loading... 0%';
-	loadingElement.style.width = '350px';
+	const loadingElement = addLoader({ document });
 
 	// Append the element to the document body
 	document.body.appendChild(loadingElement);
@@ -111,7 +96,8 @@ async function init() {
 		// Load plane models
 		setTimeout(async () => {
 			await loadPlanes({
-				scene
+				scene,
+				aircraftObjects
 			});
 			console.log('Plane models loaded');
 		}, 1500);
@@ -172,8 +158,8 @@ function animate() {
 	}
 
 	const deltaTime = clock.getDelta(); // Time since last frame
-
 	if (isAnimating && aircraftObjects.length > 0) {
+		console.log(aircraftObjects.length)
 		// Update plane animations
 		planeT1 = flyPlane({
 			scene,
@@ -184,6 +170,7 @@ function animate() {
 			flyPath: flyPath,
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
+			// rotateY: Math.PI,
 			showFlightPath,
 			flightPathLines,
 		});
@@ -196,6 +183,7 @@ function animate() {
 			flyPath: flyPath2,
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
+			// rotateY: Math.PI,
 			showFlightPath,
 			flightPathLines,
 		});
