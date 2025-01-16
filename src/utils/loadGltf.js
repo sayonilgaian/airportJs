@@ -37,7 +37,7 @@ export default function loadGltf({
 			},
 			function (xhr) {
 				// Track loading progress
-				console.log(filePath + ": " + (xhr.loaded / xhr.total) * 100 + "% loaded");
+				// console.log(filePath + ": " + (xhr.loaded / xhr.total) * 100 + "% loaded");
 				if (loading) {
 					loading(xhr.loaded / xhr.total);
 				}

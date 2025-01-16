@@ -2,7 +2,9 @@ import * as THREE from 'three';
 
 const flightPaths = []
 const verticalOffset = 4;
-const zOffset = 29;
+const zOffset = 4;
+// const verticalOffset = 0;
+// const zOffset = 0;
 
 const flyPath = [
 	new THREE.Vector3(130, 3 + verticalOffset, -50 + zOffset), // Start point

@@ -24,6 +24,7 @@ let parkingZones = [];
 let airCraftPositions = new Array(flightPaths.length).fill(0);
 const clock = new THREE.Clock();
 let flightPathLines = [];
+const numberOfAircrafts = 2;
 let { scene, camera, renderer, controls, floor } = createScene();
 
 // Select buttons and add event listeners
@@ -68,19 +69,17 @@ async function init() {
 			scene,
 			filePath: 'model/airport.glb',
 			loading: (progress) => {
+				// airport takes 95% time to load
 				loadingElement.style.boxShadow = `inset ${
-					progress * loadingElement.offsetWidth
+					progress * 0.95 * loadingElement.offsetWidth * 0.9
 				}px 0 0 0 rgba(255, 255, 255, 0.5)`;
-				loadingElement.textContent = `Loading... ${(progress * 100).toFixed(
-					2
+				loadingElement.textContent = `Loading... ${(progress * 95).toFixed(
+					0
 				)}%`;
 			},
 			callback: (scene) => {
 				// Add static scene objects
 				scene?.traverse((sceneObject) => {
-					if (sceneObject?.name?.includes('Airplane')) {
-						aircraftObjects.push(sceneObject);
-					}
 					if (sceneObject?.name?.includes('Tower')) {
 						towerObjects.push(sceneObject);
 					}
@@ -97,17 +96,27 @@ async function init() {
 		});
 		console.log('GLTF model loaded');
 
+		// Load plane models
+		await loadPlanes({
+			scene,
+			aircraftObjects,
+			numberOfAircrafts,
+			loading: (progress) => {
+				// aircraft takes 5% time to load
+				loadingElement.style.boxShadow = `inset ${
+					(0.95 + progress * 0.05) * loadingElement.offsetWidth
+				}px 0 0 0 rgba(255, 255, 255, 0.5)`;
+				loadingElement.textContent = `Loading... ${(95 + progress * 5).toFixed(
+					0
+				)}%`;
+			},
+		});
+		for (let i = 0; i < aircraftObjects.length; i++) {
+			scene.add(aircraftObjects[i]);
+		}
+		console.log('Plane models loaded');
 		// Remove loading text after loading is complete
 		document.body.removeChild(loadingElement);
-
-		// Load plane models
-		setTimeout(async () => {
-			await loadPlanes({
-				scene,
-				aircraftObjects,
-			});
-			console.log('Plane models loaded');
-		}, 1500);
 	} catch (error) {
 		console.error('Error initializing scene:', error);
 
@@ -157,9 +166,9 @@ function animate() {
 				deltaTime,
 				speed: animationSpeed,
 				flyPath: flightPaths[i],
-				rotateZ: Math.PI / 2,
-				rotateX: Math.PI / 2,
-				// rotateY: Math.PI,
+				// rotateZ: Math.PI / 2,
+				// rotateX: Math.PI / 2,
+				rotateY: Math.PI,
 				showFlightPath,
 				flightPathLines,
 			});

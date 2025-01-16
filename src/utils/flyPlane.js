@@ -12,7 +12,7 @@ export default function flyPlane({
 	rotateY = 0,
 	rotateZ = 0,
 	showFlightPath,
-	flightPathLines
+	flightPathLines,
 }) {
 	if (!airCraftObject) {
 		console.error('airCraftObject is undefined.');

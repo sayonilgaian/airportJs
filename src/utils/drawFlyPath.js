@@ -10,7 +10,18 @@ export default function drawFlyPath({
 	],
 	showFlightPath,
 	flightPathLines = [],
+	offsetZ = 0,
+	offsetY = 0,
+	offsetX = 0,
 }) {
+	// Make any corrections to fly
+	let updatedFlyPath = flyPath.map((path) => {
+		let temp = new THREE.Vector3(path?.x, path?.y, path?.z);
+		temp.x += offsetX;
+		temp.y += offsetY;
+		temp.z += offsetZ;
+		return temp;
+	});
 	if (!showFlightPath) {
 		let temp = [...flightPathLines];
 		// must mutate original array for three js to detect change
@@ -24,7 +35,7 @@ export default function drawFlyPath({
 		return;
 	}
 
-	const curve = new THREE.CatmullRomCurve3(flyPath);
+	const curve = new THREE.CatmullRomCurve3(updatedFlyPath);
 	const points = curve.getPoints(500);
 	const geometry = new THREE.BufferGeometry().setFromPoints(points);
 	const material = new THREE.LineDashedMaterial({
