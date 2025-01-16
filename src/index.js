@@ -50,11 +50,28 @@ const clock = new THREE.Clock();
 let flightPathLines = [];
 
 async function init() {
+	// Create a loading text element
+	const loadingElement = document.createElement('div');
+	loadingElement.id = 'loading-text';
+	loadingElement.style.position = 'absolute';
+	loadingElement.style.top = '50%';
+	loadingElement.style.left = '50%';
+	loadingElement.style.transform = 'translate(-50%, -50%)';
+	loadingElement.style.color = '#ffffff';
+	loadingElement.style.fontSize = '20px';
+	loadingElement.style.zIndex = '100';
+	loadingElement.textContent = 'Loading... 0%';
+	document.body.appendChild(loadingElement);
 	try {
 		// Load airport GLTF asynchronously
 		await loadGltf({
 			scene,
 			filePath: 'model/airport.glb',
+			loading: (progress) => {
+				loadingElement.textContent = `Loading... ${(progress * 100).toFixed(
+					2
+				)}%`;
+			},
 			callback: (scene) => {
 				// Add static scene objects
 				scene?.traverse((sceneObject) => {
@@ -77,6 +94,9 @@ async function init() {
 		});
 		console.log('GLTF model loaded');
 
+		// Remove loading text after loading is complete
+		document.body.removeChild(loadingElement);
+
 		// Load plane models
 		setTimeout(async () => {
 			await loadPlanes({
@@ -88,6 +108,9 @@ async function init() {
 		}, 1500);
 	} catch (error) {
 		console.error('Error initializing scene:', error);
+
+		// Show an error message in the loading element
+		loadingElement.textContent = 'Failed to load the model.';
 	}
 }
 
@@ -153,7 +176,7 @@ function animate() {
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
 			showFlightPath,
-			flightPathLines
+			flightPathLines,
 		});
 		planeT2 = flyPlane({
 			scene,
@@ -165,7 +188,7 @@ function animate() {
 			rotateZ: Math.PI / 2,
 			rotateX: Math.PI / 2,
 			showFlightPath,
-			flightPathLines
+			flightPathLines,
 		});
 	}
 
