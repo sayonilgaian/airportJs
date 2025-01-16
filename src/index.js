@@ -59,8 +59,17 @@ async function init() {
 	loadingElement.style.transform = 'translate(-50%, -50%)';
 	loadingElement.style.color = '#ffffff';
 	loadingElement.style.fontSize = '20px';
+	loadingElement.style.fontFamily = 'Arial, sans-serif';
+	loadingElement.style.textAlign = 'center';
+	loadingElement.style.padding = '20px 40px';
+	loadingElement.style.border = '2px solid #ffffff'; // White border
+	// loadingElement.style.borderRadius = '10px'; // Rounded corners
+	loadingElement.style.background = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black background
 	loadingElement.style.zIndex = '100';
 	loadingElement.textContent = 'Loading... 0%';
+	loadingElement.style.width = '350px';
+
+	// Append the element to the document body
 	document.body.appendChild(loadingElement);
 	try {
 		// Load airport GLTF asynchronously
@@ -68,6 +77,9 @@ async function init() {
 			scene,
 			filePath: 'model/airport.glb',
 			loading: (progress) => {
+				loadingElement.style.boxShadow = `inset ${
+					progress * loadingElement.offsetWidth
+				}px 0 0 0 rgba(255, 255, 255, 0.5)`;
 				loadingElement.textContent = `Loading... ${(progress * 100).toFixed(
 					2
 				)}%`;
