@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import flightPaths from '../data/flyPaths.js';
 
 export default function drawFlyPath({
 	scene,
@@ -8,27 +9,34 @@ export default function drawFlyPath({
 		new THREE.Vector3(100, 200, -50), // Destination
 	],
 	showFlightPath,
-	flightPathLines,
+	flightPathLines = [],
 }) {
+	if (!showFlightPath) {
+		let temp = [...flightPathLines];
+		// must mutate original array for three js to detect change
+		for (let i = 0; i < temp.length; i++) {
+			scene.remove(temp[i]);
+			flightPathLines.shift();
+			// to free GPU from unused assets
+			temp[i]?.geometry.dispose();
+			temp[i]?.material.dispose();
+		}
+		return;
+	}
+
 	const curve = new THREE.CatmullRomCurve3(flyPath);
 	const points = curve.getPoints(500);
 	const geometry = new THREE.BufferGeometry().setFromPoints(points);
 	const material = new THREE.LineDashedMaterial({
-		color: 0x00ff00,
+		color: '#ffffff',
 		dashSize: 5, // Length of each dash
 		gapSize: 3, // Gap between dashes
 		linewidth: 1, // Width of the line (ignored on most browsers)
 	});
 	let line = new THREE.Line(geometry, material);
-	line.name = 'flightPath';
 
-	flightPathLines.push(line);
-	showFlightPath && scene.add(line);
-	if (!showFlightPath && scene) {
-		scene.traverse((sceneObject) => {
-			if (sceneObject?.name === 'flightPath') {
-				scene?.remove(sceneObject);
-			}
-		});
+	if (showFlightPath && flightPaths.length > flightPathLines.length) {
+		flightPathLines.push(line);
+		scene.add(line);
 	}
 }

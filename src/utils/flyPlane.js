@@ -50,7 +50,6 @@ export default function flyPlane({
 	airCraftObject.rotateY(rotateY);
 	airCraftObject.rotateZ(rotateZ);
 
-	// TODO: removing flight path pending
 	drawFlyPath({ scene, flyPath, showFlightPath, flightPathLines });
 
 	return currentT;

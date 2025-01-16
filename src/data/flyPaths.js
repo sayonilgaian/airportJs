@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 const flightPaths = []
-const verticalOffset = 0;
+const verticalOffset = 4;
 const zOffset = 29;
 
 const flyPath = [
