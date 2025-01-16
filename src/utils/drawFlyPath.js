@@ -10,20 +10,6 @@ export default function drawFlyPath({
 	showFlightPath,
 	flightPathLines,
 }) {
-	// if (flightPathLines.length > 0 && !showFlightPath) {
-	// 	flightPathLines.forEach((line) => {
-	// 		line.geometry.dispose();
-	// 		line.material.dispose();
-	// 		scene.remove(line);
-	// 	});
-	// 	flightPathLines = [];
-	// 	return;
-	// }
-
-	// if (flightPathLines.length > 0 && showFlightPath) {
-	// 	return;
-	// }
-
 	const curve = new THREE.CatmullRomCurve3(flyPath);
 	const points = curve.getPoints(500);
 	const geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -34,13 +20,15 @@ export default function drawFlyPath({
 		linewidth: 1, // Width of the line (ignored on most browsers)
 	});
 	let line = new THREE.Line(geometry, material);
+	line.name = 'flightPath';
 
-	if (
-		showFlightPath &&
-		flightPathLines.filter((flightLine) => flightLine?.uuid === line?.uuid)
-			.length === 0
-	) {
-		flightPathLines.push(line);
-		scene.add(line);
+	flightPathLines.push(line);
+	showFlightPath && scene.add(line);
+	if (!showFlightPath && scene) {
+		scene.traverse((sceneObject) => {
+			if (sceneObject?.name === 'flightPath') {
+				scene?.remove(sceneObject);
+			}
+		});
 	}
 }

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+const flightPaths = []
 const verticalOffset = 0;
 const zOffset = 29;
 
@@ -22,4 +23,6 @@ const flyPath2 = [
 	new THREE.Vector3(130, 4 + verticalOffset, 20 + zOffset), // Start point
 ];
 
-export { flyPath, flyPath2 };
+flightPaths.push(flyPath,flyPath2)
+
+export default flightPaths;

@@ -7,12 +7,24 @@ import addObjectData from './utils/addObjectData.js';
 import updateToolTip from './utils/updateToolTip.js';
 import { debounce } from './helpers/index.js';
 import flyPlane from './utils/flyPlane.js';
-import { flyPath, flyPath2 } from './data/flyPaths.js';
+import flightPaths from './data/flyPaths.js';
 import addLoader from './utils/addLoader.js';
+import resetAnimation from './utils/resetAnimation.js';
 
 let isAnimating = true; // Animation state
 let animationSpeed = 150;
 let showFlightPath = false;
+let aircraftObjects = [];
+let towerObjects = [];
+let terminals = [];
+let runways = [];
+let gates = [];
+let parkingZones = [];
+// Track the plane's normalized position along the curve
+let airCraftPositions = new Array(flightPaths.length).fill(0);
+const clock = new THREE.Clock();
+let flightPathLines = [];
+let { scene, camera, renderer, controls, floor } = createScene();
 
 // Select buttons and add event listeners
 const pauseButton = document.getElementById('toggle-button');
@@ -23,7 +35,17 @@ pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
-resetButton.addEventListener('click', () => resetAnimation());
+resetButton.addEventListener('click', () => {
+	resetAnimation({
+		isAnimating,
+		airCraftPositions,
+		flightPaths,
+		aircraftObjects,
+		renderer,
+		scene,
+		camera,
+	});
+});
 speedButton.addEventListener('change', () => {
 	animationSpeed = speedButton.value;
 });
@@ -33,21 +55,6 @@ flightPathBtn.addEventListener('click', () => {
 		showFlightPath ? 'Hide' : ' Show'
 	} Flight Path`;
 });
-
-let { scene, camera, renderer, controls, floor } = createScene();
-
-let aircraftObjects = [];
-let towerObjects = [];
-let terminals = [];
-let runways = [];
-let gates = [];
-let parkingZones = [];
-
-// Track the plane's normalized position along the curve
-let planeT1 = 0;
-let planeT2 = 0;
-const clock = new THREE.Clock();
-let flightPathLines = [];
 
 async function init() {
 	// Create a loading text element
@@ -97,7 +104,7 @@ async function init() {
 		setTimeout(async () => {
 			await loadPlanes({
 				scene,
-				aircraftObjects
+				aircraftObjects,
 			});
 			console.log('Plane models loaded');
 		}, 1500);
@@ -111,29 +118,6 @@ async function init() {
 
 // Start animation
 animate();
-
-function resetAnimation() {
-	if (!isAnimating) {
-		return;
-	}
-	planeT1 = 0;
-	planeT2 = 0;
-
-	// Reset positions of aircraft
-	if (aircraftObjects.length > 0) {
-		const startPosition1 = flyPath[0]; // Starting point of flyPath
-		const startPosition2 = flyPath2[0]; // Starting point of flyPath2
-
-		aircraftObjects[0].position.copy(startPosition1);
-		aircraftObjects[0].rotation.set(0, Math.PI, 0); // Reset orientation
-
-		aircraftObjects[1].position.copy(startPosition2);
-		aircraftObjects[1].rotation.set(0, Math.PI, 0); // Reset orientation
-	}
-
-	// Re-render scene
-	renderer.render(scene, camera);
-}
 
 function animate() {
 	requestAnimationFrame(animate);
@@ -159,34 +143,28 @@ function animate() {
 
 	const deltaTime = clock.getDelta(); // Time since last frame
 	if (isAnimating && aircraftObjects.length > 0) {
-		console.log(aircraftObjects.length)
 		// Update plane animations
-		planeT1 = flyPlane({
-			scene,
-			airCraftObject: aircraftObjects[0],
-			currentT: planeT1,
-			deltaTime,
-			speed: animationSpeed,
-			flyPath: flyPath,
-			rotateZ: Math.PI / 2,
-			rotateX: Math.PI / 2,
-			// rotateY: Math.PI,
-			showFlightPath,
-			flightPathLines,
-		});
-		planeT2 = flyPlane({
-			scene,
-			airCraftObject: aircraftObjects[1],
-			currentT: planeT2,
-			deltaTime,
-			speed: animationSpeed,
-			flyPath: flyPath2,
-			rotateZ: Math.PI / 2,
-			rotateX: Math.PI / 2,
-			// rotateY: Math.PI,
-			showFlightPath,
-			flightPathLines,
-		});
+
+		for (
+			let i = 0;
+			i < Math.min(aircraftObjects.length, flightPaths.length);
+			i++
+		) {
+			let airCraftPosition = flyPlane({
+				scene,
+				airCraftObject: aircraftObjects[i],
+				currentT: airCraftPositions[i],
+				deltaTime,
+				speed: animationSpeed,
+				flyPath: flightPaths[i],
+				rotateZ: Math.PI / 2,
+				rotateX: Math.PI / 2,
+				// rotateY: Math.PI,
+				showFlightPath,
+				flightPathLines,
+			});
+			airCraftPositions[i] = airCraftPosition;
+		}
 	}
 
 	controls.update();
