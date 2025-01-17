@@ -17,7 +17,10 @@ function updateToolTip({
 		intersects[0].object?.userData?.type !== 'floor'
 	) {
 		const selectedObject = intersects[0].object;
-		// console.log('===',selectedObject)
+		if (Object.keys(selectedObject.userData).length === 0) {
+			return;
+		}
+		// console.log('===', selectedObject.userData);
 
 		// Show info
 		showInfo(selectedObject, camera, showDetails);

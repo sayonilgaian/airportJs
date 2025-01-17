@@ -42,6 +42,7 @@ flightPathBtn.disabled = true;
 // adding event listerners
 pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
+	resetButton.disabled = isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
 resetButton.addEventListener('click', () => {
@@ -94,8 +95,8 @@ async function init() {
 					}
 					if (sceneObject?.name?.includes('airport-ground')) {
 						// To select correct object for runway
-						// runways.push(sceneObject?.children?.filter((childObject)=> childObject?.name === 'Plane018_1')[0]);
-						runways.push(sceneObject);
+						runways.push(sceneObject?.children?.filter((childObject)=> childObject?.name === 'Plane018_1')[0]);
+						// runways.push(sceneObject);
 					}
 				});
 			},
