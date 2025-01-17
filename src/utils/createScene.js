@@ -50,7 +50,6 @@ export default function createScene() {
 	floor.rotation.x = -Math.PI / 2; // Rotate to lie flat on the XZ plane
 	floor.position.y = 0; // Position at y = 0
 	floor.userData.type = 'floor';
-	scene.add(floor);
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
