@@ -40,8 +40,6 @@ resetButton.addEventListener('click', () => {
 	resetAnimation({
 		isAnimating,
 		airCraftPositions,
-		flightPaths,
-		aircraftObjects,
 		renderer,
 		scene,
 		camera,
