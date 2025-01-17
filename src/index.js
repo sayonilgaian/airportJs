@@ -102,6 +102,8 @@ async function init() {
 		});
 		console.log('GLTF model loaded');
 
+		scene.add(floor)
+
 		// Load plane models
 		await loadPlanes({
 			scene,
@@ -121,8 +123,9 @@ async function init() {
 			scene.add(aircraftObjects[i]);
 		}
 		console.log('Plane models loaded');
+
 		// Remove loading text after loading is complete
-		document.body.removeChild(loadingElement);
+		loadingElement.removeLoader();
 
 		// enable all interaction buttons
 		pauseButton.disabled = false;
