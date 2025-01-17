@@ -20,13 +20,6 @@ function toScreenPosition(obj, camera) {
 let activeTooltip = null;
 
 function showInfo(object, camera, showDetails = false) {
-	// Edge case: to handle multiple airport-ground assets, out of which only one is runway
-	if (
-		object?.parent?.name === 'airport-ground' &&
-		object?.name !== 'Plane018_1'
-	) {
-		return;
-	}
 
 	// Clear any existing tooltip
 	if (activeTooltip) {
@@ -37,22 +30,22 @@ function showInfo(object, camera, showDetails = false) {
 	// Create separate tooltips for basic data and detailed data
 	let basicDataString = '';
 	let detailedDataString = '';
-	if (object?.parent?.userData?.basicData) {
-		basicDataString = Object.keys(object?.parent?.userData?.basicData)
+	if (object?.userData?.basicData) {
+		basicDataString = Object.keys(object?.userData?.basicData)
 			.map(
 				(key) =>
 					`${key.split('_').join(' ')}: ${
-						object?.parent?.userData?.basicData[key]
+						object?.userData?.basicData[key]
 					}`
 			)
 			.join('<br/>');
 	}
-	if (object?.parent?.userData?.detailedData) {
-		detailedDataString = Object.keys(object?.parent?.userData?.detailedData)
+	if (object?.userData?.detailedData) {
+		detailedDataString = Object.keys(object?.userData?.detailedData)
 			.map(
 				(key) =>
 					`${key.split('_').join(' ')}: ${
-						object?.parent?.userData?.detailedData[key]
+						object?.userData?.detailedData[key]
 					}`
 			)
 			.join('<br/>');
@@ -122,7 +115,8 @@ function showInfo(object, camera, showDetails = false) {
 	});
 
 	// show tooltip only when baisc and detailed data are available
-	object?.parent?.userData?.basicData && activeTooltip.show();
+	// object?.userData?.basicData && activeTooltip.show();
+	object?.userData?.basicData && activeTooltip.show();
 }
 
 export default showInfo;
