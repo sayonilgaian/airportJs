@@ -42,7 +42,7 @@ flightPathBtn.disabled = true;
 // adding event listerners
 pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
-	resetButton.disabled = isAnimating;
+	resetButton.disabled = !isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
 });
 resetButton.addEventListener('click', () => {
