@@ -32,6 +32,14 @@ const pauseButton = document.getElementById('toggle-button');
 const resetButton = document.getElementById('reset-button');
 const speedButton = document.getElementById('speed-button');
 const flightPathBtn = document.getElementById('toggle-flight-path');
+
+// initially all buttons are disabled, until 3d models are loaded
+pauseButton.disabled = true;
+resetButton.disabled = true;
+speedButton.disabled = true;
+flightPathBtn.disabled = true;
+
+// adding event listerners
 pauseButton.addEventListener('click', () => {
 	isAnimating = !isAnimating;
 	pauseButton.textContent = isAnimating ? 'Pause Animation' : 'Play Animation';
@@ -115,6 +123,12 @@ async function init() {
 		console.log('Plane models loaded');
 		// Remove loading text after loading is complete
 		document.body.removeChild(loadingElement);
+
+		// enable all interaction buttons
+		pauseButton.disabled = false;
+		resetButton.disabled = false;
+		speedButton.disabled = false;
+		flightPathBtn.disabled = false;
 	} catch (error) {
 		console.error('Error initializing scene:', error);
 
