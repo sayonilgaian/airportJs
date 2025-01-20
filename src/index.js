@@ -124,6 +124,14 @@ async function init() {
 				)}%`;
 			},
 		});
+
+		// add static plane models which are part of airport model
+		scene.traverse((sceneObject)=>{
+			if (sceneObject?.name?.includes("Airplane-Lufthansa")) {
+				aircraftObjects.push(sceneObject)
+			}
+		})
+
 		for (let i = 0; i < aircraftObjects.length; i++) {
 			scene.add(aircraftObjects[i]);
 		}
