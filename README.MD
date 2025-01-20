@@ -13,9 +13,8 @@ Follow these steps to run the project locally:
 1. Clone the repository:
     git clone https://github.com/sayonilgaian/airportJs.git
 
-2. Navigate to the project directory:
-    Open the index.html file in your browser:
-    Locate the index.html file in the project folder.   
-    Double-click to open it in your default web browser, or right-click and select "Open with" to choose a browser.
+2. npm i
 
-That's it! 🎉 The project should now be running locally.
+3. npx vite
+
+That's it! 🎉 The project should now be running locally on "http://localhost:5173/"
