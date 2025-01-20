@@ -95,7 +95,11 @@ async function init() {
 					}
 					if (sceneObject?.name?.includes('airport-ground')) {
 						// To select correct object for runway
-						runways.push(sceneObject?.children?.filter((childObject)=> childObject?.name === 'Plane018_1')[0]);
+						runways.push(
+							sceneObject?.children?.filter(
+								(childObject) => childObject?.name === 'Plane018_1'
+							)[0]
+						);
 						// runways.push(sceneObject);
 					}
 				});
@@ -103,7 +107,7 @@ async function init() {
 		});
 		console.log('GLTF model loaded');
 
-		scene.add(floor)
+		scene.add(floor);
 
 		// Load plane models
 		await loadPlanes({
@@ -137,7 +141,12 @@ async function init() {
 		console.error('Error initializing scene:', error);
 
 		// Show an error message in the loading element
-		loadingElement.textContent = 'Failed to load the model.';
+		loadingElement.textContent = 'Failed to load the model. Retrying...';
+
+		// Reload window after 1.5 sec
+		setTimeout(() => {
+			window.location.reload();
+		}, 1500);
 	}
 }
 
